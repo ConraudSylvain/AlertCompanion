@@ -26,7 +26,6 @@ public class Utils {
         @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("HH:mm");
         try {
             Date timeDate = dateFormat.parse(time);
-            int iii = 3 ;
             return timeDate;
         } catch (ParseException e) {
             e.printStackTrace();
