@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">AlertCompanion</string>
+
+    <!-- Menu Drawer -->
+    <string name="alarms">alarms</string>
+    <string name="treatment">treatment</string>
+    <string name="settings">settings</string>
+    <string name="main_menu">Main Menu</string>
+
+
+</resources>
