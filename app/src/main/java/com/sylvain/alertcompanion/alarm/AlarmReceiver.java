@@ -25,11 +25,8 @@ public class AlarmReceiver extends BroadcastReceiver {
         intentStopAlarm.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intentStopAlarm);
 
-        PowerManager pm = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
-        PowerManager.WakeLock wl = pm.newWakeLock( PowerManager.PARTIAL_WAKE_LOCK|
-                PowerManager.ACQUIRE_CAUSES_WAKEUP|
-                PowerManager.ON_AFTER_RELEASE, "AppName:tag");
-        wl.acquire(10*60*1000L /*10 minutes*/);
+
+
     }
 
     public static void stopAlarm(){

@@ -80,7 +80,7 @@ public class AlarmService {
         String [] alarm;
         String alarms = context.getSharedPreferences(Keys.KEY_MAIN_SAVE, MODE_PRIVATE).getString(Keys.KEY_SAVE_ALARM_LIST, null);
         if(alarms == null || alarms.length() < 1 ){
-            return null;
+            return new ArrayList<>();
         }else{
             alarm = alarms.split(",");
             for( String date : alarm){
