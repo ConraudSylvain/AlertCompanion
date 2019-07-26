@@ -1,11 +1,10 @@
-package com.sylvain.alertcompanion.alarm;
+package com.sylvain.alertcompanion.view;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
+import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,14 +16,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.sylvain.alertcompanion.utils.Keys;
+import com.sylvain.alertcompanion.controller.AlarmService;
+import com.sylvain.alertcompanion.model.Keys;
 import com.sylvain.alertcompanion.R;
-import com.sylvain.alertcompanion.utils.Utils;
-import com.sylvain.alertcompanion.utils.UtilsAlertDialog;
+import com.sylvain.alertcompanion.controller.Utils;
+import com.sylvain.alertcompanion.controller.UtilsAlertDialog;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -50,12 +49,12 @@ public class AlarmActivity extends AppCompatActivity {
     }
 
     /*CONFIGURATION*/
+    @SuppressLint("SimpleDateFormat")
     private void configureAll(){
         dateFormatTime = new SimpleDateFormat("HH:mm");
         configureToolbar();
         loadAlarmList();
         displayAlarms();
-
     }
 
 
@@ -65,7 +64,7 @@ public class AlarmActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);}
+        Objects.requireNonNull(ab).setDisplayHomeAsUpEnabled(true);}
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -77,6 +76,7 @@ public class AlarmActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);
         menu.findItem(R.id.menu_toolbar_add_alarm).setVisible(true);
+        menu.findItem(R.id.menu_toolbar_settings_alarm).setVisible(true);
         return true;
     }
 
@@ -85,7 +85,8 @@ public class AlarmActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.menu_toolbar_add_alarm: openTimePickerDialog();
                 return true;
-
+            case R.id.menu_toolbar_settings_alarm: startSettingsActivity();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -94,6 +95,7 @@ public class AlarmActivity extends AppCompatActivity {
 
     /*ALARM*/
     //Display
+    @SuppressLint("InflateParams")
     private void displayAlarms(){
         LayoutInflater layoutInflater = getLayoutInflater();
         scrollViewAlarmLinearLayout.removeAllViews();
@@ -109,6 +111,7 @@ public class AlarmActivity extends AppCompatActivity {
         }
     }
 
+    //Delete
     public void deleteAlarm (int position){
         alarmList.remove(position);
         displayAlarms();
@@ -116,6 +119,7 @@ public class AlarmActivity extends AppCompatActivity {
         saveAlarmList();
     }
 
+    //Add alarm to the list
     private void addAlarmToListAlarm(Date alarm) {
         alarmList.add(alarm);
         Collections.sort(alarmList);
@@ -123,6 +127,7 @@ public class AlarmActivity extends AppCompatActivity {
         saveAlarmList();
     }
 
+    //Configure next alarm
     private void configureAlarm(){
         if(alarmList == null || alarmList.size() == 0){
             AlarmService.cancelAlarm(this);
@@ -131,23 +136,6 @@ public class AlarmActivity extends AppCompatActivity {
         }
 
     }
-
-    private void saveAlarmList(){
-        StringBuilder stringBuilder = new StringBuilder();
-        for (Date alarm : alarmList){
-            stringBuilder.append(dateFormatTime.format(alarm));
-            stringBuilder.append(",");
-        }
-        getSharedPreferences(Keys.KEY_MAIN_SAVE, MODE_PRIVATE).edit().putString(Keys.KEY_SAVE_ALARM_LIST, stringBuilder.toString()).apply();
-    }
-
-    private void loadAlarmList(){
-        alarmList.clear();
-        alarmList = AlarmService.getAlarmList(this);
-    }
-
-
-
 
     /*UTILS*/
     //Time picker dialog
@@ -161,5 +149,26 @@ public class AlarmActivity extends AppCompatActivity {
             }
         },0,0,true);
         timePickerDialog.show();
+    }
+
+    //Save
+    private void saveAlarmList(){
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Date alarm : alarmList){
+            stringBuilder.append(dateFormatTime.format(alarm));
+            stringBuilder.append(",");
+        }
+        getSharedPreferences(Keys.KEY_MAIN_SAVE, MODE_PRIVATE).edit().putString(Keys.KEY_SAVE_ALARM_LIST, stringBuilder.toString()).apply();
+    }
+
+    //Load
+    private void loadAlarmList(){
+        alarmList.clear();
+        alarmList = AlarmService.getAlarmList(this);
+    }
+
+    private void startSettingsActivity(){
+        Intent intent = new Intent(AlarmActivity.this , SettingsAlarmActivity.class);
+        startActivity(intent);
     }
 }

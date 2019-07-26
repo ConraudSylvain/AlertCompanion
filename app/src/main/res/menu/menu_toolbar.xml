@@ -8,6 +8,13 @@
         android:visible="false"
         >
     </item>
+    <item
+        android:id="@+id/menu_toolbar_settings_alarm"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_settings"
+        android:visible="false"
+        >
+    </item>
 
 
 </menu>

@@ -1,4 +1,4 @@
-package com.sylvain.alertcompanion.alarm;
+package com.sylvain.alertcompanion.controller;
 
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
@@ -6,8 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
-import com.sylvain.alertcompanion.utils.Keys;
-import com.sylvain.alertcompanion.utils.Utils;
+import com.sylvain.alertcompanion.model.Keys;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -22,7 +21,8 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class AlarmService {
 
-    //Configure
+    /*CONFIGURATION*/
+    //Create alarm
     public static void configureAlarms(Context context, Date alarm){
          AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
          Intent myIntent = new Intent(context, AlarmReceiver.class);
@@ -37,15 +37,25 @@ public class AlarmService {
                 calendar.add(Calendar.DAY_OF_YEAR, 1);
 
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context ,0, myIntent, 0);
-            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }
 
-    public static boolean isToday(Date alarm){
+    //Cancel alarm
+    public static void cancelAlarm(Context context){
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+        Intent myIntent = new Intent(context, AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context ,0, myIntent, 0);
+        alarmManager.cancel(pendingIntent);
+    }
+
+    /*UTILS*/
+    //Check if alarm is today
+    private static boolean isToday(Date alarm){
         return getCurrentTime().before(alarm);
     }
 
-    public static Date getCurrentTime(){
+    //Get current time
+    private static Date getCurrentTime(){
         @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("HH:mm");
         String currentTimeString  = dateFormat.format(Calendar.getInstance().getTime());
         try {
@@ -56,6 +66,7 @@ public class AlarmService {
         throw new IllegalArgumentException("error");
     }
 
+    //Find next alarm
     public static Date findNextAlarm(List<Date> alarmList){
 
             Date currentTimeDate = getCurrentTime();
@@ -68,13 +79,7 @@ public class AlarmService {
 
     }
 
-    public static void cancelAlarm(Context context){
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
-        Intent myIntent = new Intent(context, AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context ,0, myIntent, 0);
-        alarmManager.cancel(pendingIntent);
-    }
-
+    //Get list all alarm
     public static List<Date> getAlarmList(Context context){
         List<Date> alarmList = new ArrayList<>();
         String [] alarm;

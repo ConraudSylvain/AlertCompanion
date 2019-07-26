@@ -1,8 +1,7 @@
-package com.sylvain.alertcompanion;
+package com.sylvain.alertcompanion.view;
 
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,8 +13,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.navigation.NavigationView;
-import com.sylvain.alertcompanion.alarm.AlarmActivity;
-import com.sylvain.alertcompanion.utils.Keys;
+import com.sylvain.alertcompanion.R;
+import com.sylvain.alertcompanion.controller.Permission;
+import com.sylvain.alertcompanion.model.Keys;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
 
     @OnClick(R.id.activity_main_button_sos)
     public void clickAlarmButton(){}
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void configureAll(){
         configureToolbar();
         configureDrawerlayout();
+        Permission.permissionSms(this);
     }
 
     /*UI*/

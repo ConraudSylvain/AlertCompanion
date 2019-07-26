@@ -1,4 +1,4 @@
-package com.sylvain.alertcompanion.alarm;
+package com.sylvain.alertcompanion.controller;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -6,7 +6,8 @@ import android.content.Intent;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.PowerManager;
+
+import com.sylvain.alertcompanion.view.StopAlarmActivity;
 
 
 public class AlarmReceiver extends BroadcastReceiver {
@@ -24,8 +25,6 @@ public class AlarmReceiver extends BroadcastReceiver {
         Intent intentStopAlarm = new Intent(context, StopAlarmActivity.class);
         intentStopAlarm.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intentStopAlarm);
-
-
 
     }
 

@@ -1,4 +1,4 @@
-package com.sylvain.alertcompanion.utils;
+package com.sylvain.alertcompanion.controller;
 
 import android.annotation.SuppressLint;
 
@@ -25,8 +25,7 @@ public class Utils {
     public static Date convertTimeStringToDate(String time){
         @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("HH:mm");
         try {
-            Date timeDate = dateFormat.parse(time);
-            return timeDate;
+            return dateFormat.parse(time);
         } catch (ParseException e) {
             e.printStackTrace();
         }
