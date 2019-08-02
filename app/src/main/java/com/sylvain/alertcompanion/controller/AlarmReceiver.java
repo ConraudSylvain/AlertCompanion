@@ -15,6 +15,10 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        //Configure next alarm
+        if(AlarmService.getAlarmList(context) != null)
+            AlarmService.configureAlarms(context, AlarmService.findNextAlarm(AlarmService.getAlarmList(context)));
+
         Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         if (alarmUri == null) {
             alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);

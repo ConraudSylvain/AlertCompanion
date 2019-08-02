@@ -12,15 +12,12 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.TextView;
 
 import com.sylvain.alertcompanion.R;
 import com.sylvain.alertcompanion.controller.AlarmReceiver;
-import com.sylvain.alertcompanion.controller.AlarmService;
 import com.sylvain.alertcompanion.controller.SendSms;
 import com.sylvain.alertcompanion.model.Keys;
 
-import java.sql.Time;
 import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -46,15 +43,13 @@ public class StopAlarmActivity extends AppCompatActivity {
         preferences = getSharedPreferences(Keys.KEY_MAIN_SAVE, MODE_PRIVATE);
         timer = new Timer();
 
-        //Configure next alarm
-        if(AlarmService.getAlarmList(this) != null)
-            AlarmService.configureAlarms(this, AlarmService.findNextAlarm(AlarmService.getAlarmList(this)));
-
         setTimer();
         unlockScreen();
         turnOnScreen();
     }
 
+    /*ALARM*/
+    //Set timer for stop alarm before send sms
     private void setTimer(){
        timer.schedule(new TimerTask() {
             @Override
@@ -88,43 +83,40 @@ public class StopAlarmActivity extends AppCompatActivity {
             wl.acquire(10*60*1000L /*10 minutes*/);
         }
 
-
-
-
+    //Stop alarm user action
     private void stopAlarmUser(){
        AlarmReceiver.stopAlarm();
        timer.cancel();
        finish();
     }
 
+    //Stop alarm no response
     private void stopAlarmAlert(){
-        Context context = this;
         AlarmReceiver.stopAlarm();
         parent = this;
         parent.runOnUiThread(new Runnable() {
             public void run() {
-                displayDialogSmsStatus(context);
+                displayDialogSmsStatus();
             }
         });
-
-        SendSms.getInstance().sendSms(this);
+        SendSms.getInstance().configureAndSendSms(this, Keys.KEY_MOD_MESSAGE_ALARM);
         timer.cancel();
     }
 
-    private static void displayDialogSmsStatus(Context context){
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+    /*Alert dialog*/
+    //Display alertdialog send sms
+    private  void displayDialogSmsStatus(){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle("SMS sending...")
-                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        SendSms.getInstance().unregistredBroadcast();
-                        parent.finish();
-                    }
-                }).setMessage("status :");
+                .setPositiveButton("ok", (dialog, which) -> {
+                    SendSms.getInstance().unregistredBroadcast();
+                    parent.finish();
+                }).setMessage("status : wait");
                alertDialog = alertDialogBuilder.create();
                alertDialog.show();
     }
 
+    //Update dialog send sms
     public static void updateStatusSmsSendForDialog(String status){
         alertDialog.dismiss();
         alertDialog.setMessage("status : " + status);

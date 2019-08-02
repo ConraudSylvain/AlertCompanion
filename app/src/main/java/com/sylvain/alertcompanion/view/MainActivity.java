@@ -1,11 +1,13 @@
 package com.sylvain.alertcompanion.view;
 
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,8 +17,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.sylvain.alertcompanion.R;
 import com.sylvain.alertcompanion.controller.Permission;
+import com.sylvain.alertcompanion.controller.SendSms;
 import com.sylvain.alertcompanion.model.Keys;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -32,7 +34,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     @OnClick(R.id.activity_main_button_sos)
-    public void clickAlarmButton(){}
+    public void clickAlarmButton(){sendSmsSos();}
+
+    static AlertDialog alertDialog;
 
 
     @Override
@@ -57,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         configureToolbar();
         configureDrawerlayout();
         Permission.permissionSms(this);
+        Permission.permissionCall(this);
+        Permission.permissionContact(this);
     }
 
     /*UI*/
@@ -70,6 +76,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);
         return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_toolbar_settings:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
 
     //Menu drawer
     private void configureDrawerlayout(){
@@ -90,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.menu_drawer_button_traitment:
 
                 break;
-            case R.id.menu_drawer_button_settings:
+            case R.id.menu_drawer_button_settings:startSettingsActivity();
 
                 break;
             default:
@@ -100,11 +118,40 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         return true;}
 
+    /*SOS SMS*/
+     //Send sms
+    private void sendSmsSos(){
+        displayDialogSmsStatus();
+            SendSms.getInstance().configureAndSendSms(this, Keys.KEY_MOD_MESSAGE_SOS);
+        }
+
+        //Dialog sms status
+    private void displayDialogSmsStatus(){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle("SMS sending...")
+                .setPositiveButton("ok", (dialog, which) -> SendSms.getInstance().unregistredBroadcast()).setMessage("status : wait");
+        alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    //Update dialog sms status
+    public static void updateStatusSmsSendForDialog(String status){
+        alertDialog.dismiss();
+        alertDialog.setMessage("status : " + status);
+        alertDialog.show();
+    }
 
     /*Activity*/
     private void startActivityAlarm(){
         Intent intent = new Intent(MainActivity.this, AlarmActivity.class);
         startActivity(intent);
     }
+
+    private void startSettingsActivity(){
+        Intent intent = new Intent(MainActivity.this , SettingsActivity.class);
+        startActivity(intent);
+    }
+
+
 
 }

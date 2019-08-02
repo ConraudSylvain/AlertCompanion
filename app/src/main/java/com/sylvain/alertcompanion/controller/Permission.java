@@ -16,4 +16,14 @@ public class Permission {
             ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.SEND_SMS},1);
         }
     }
+    public static void permissionCall(Activity activity){
+        if(ContextCompat.checkSelfPermission(activity,Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.CALL_PHONE},1);
+        }
+    }
+    public static void permissionContact(Activity activity){
+        if(ContextCompat.checkSelfPermission(activity,Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_CONTACTS},1);
+        }
+    }
 }

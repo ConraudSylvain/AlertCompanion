@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="settings_title">30sp</dimen>
+    <dimen name="button_settings">150dp</dimen>
+
+</resources>

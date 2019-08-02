@@ -1,55 +1,215 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.SettingsAlarmActivity">
+    tools:context=".view.SettingsActivity"
+    android:orientation="vertical">
 
     <include layout="@layout/toolbar"/>
 
-    <LinearLayout
-        android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-
-        <EditText
-            android:id="@+id/activity_settings_alarm_edittext_phone_number"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="phone number"
-            android:inputType="number"
-            android:maxLength="10"
-            android:textAlignment="center"
-            android:layout_margin="10dp"/>
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/activity_settings_alarm_edittext_delay_for_stop"
-            android:layout_margin="10dp"
-            android:layout_width="match_parent"
+            <TextView
+                android:layout_gravity="center"
+                android:layout_margin="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="@string/daily_alarm"
+                android:textSize="@dimen/settings_title"
+                android:textColor="@color/colorPrimaryDark"
+                />
+
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/person_to_contact"
+                    android:layout_margin="10dp"
+                    android:textColor="@android:color/black"/>
+
+                <EditText
+                    android:id="@+id/activity_settings_alarm_edittext_phone_number_alarm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/phone_number"
+                    android:inputType="phone"
+                    android:textAlignment="center"
+                    android:layout_margin="10dp"/>
+
+                <ImageView
+                    android:id="@+id/activity_settings_alarm_button_contact_alarm"
+                    android:layout_margin="10dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/ic_contact"
+                    android:focusable="true"
+                    android:clickable="true"
+                    />
+
+
+            </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="delay for stop alarm"
-            android:inputType="number"
-            android:maxLength="4"
-            android:textAlignment="center"/>
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/time_for_stop_alarm"
+                android:layout_margin="10dp"
+                android:textColor="@android:color/black"/>
+
+
+            <EditText
+                android:id="@+id/activity_settings_alarm_edittext_delay_for_stop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="delay"
+                android:inputType="phone"
+                android:textAlignment="center"
+                android:layout_margin="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/second"
+                android:layout_margin="10dp"
+                android:textColor="@android:color/black"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/message_content"
+                android:layout_margin="10dp"
+                android:textColor="@android:color/black"/>
 
         <EditText
-            android:id="@+id/activity_settings_alarm_edittext_message_content"
+            android:id="@+id/activity_settings_alarm_edittext_message_content_alarm"
             android:layout_margin="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="message content"
             android:inputType="textMultiLine"
             android:textAlignment="center"/>
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/activity_settings_alarm_button_save"
+
+
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="save"/>
+            android:layout_height="2dp"
+            android:background="@color/colorPrimary"/>
 
-    </LinearLayout>
 
-</RelativeLayout>
+            <TextView
+                android:layout_gravity="center"
+                android:layout_margin="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="@string/sos_message"
+                android:textSize="@dimen/settings_title"
+                android:textColor="@color/colorPrimaryDark"
+                />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/person_to_contact"
+                    android:layout_margin="10dp"
+                    android:textColor="@android:color/black"/>
+
+                <EditText
+                    android:id="@+id/activity_settings_alarm_edittext_phone_number_sos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/phone_number"
+                    android:inputType="phone"
+                    android:textAlignment="center"
+                    android:layout_margin="10dp"/>
+
+                <ImageView
+                    android:id="@+id/activity_settings_alarm_button_contact_sos"
+                    android:layout_margin="10dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/ic_contact"
+                    android:focusable="true"
+                    android:clickable="true"
+                    />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/message_content"
+                    android:layout_margin="10dp"
+                    android:textColor="@android:color/black"/>
+
+                <EditText
+                    android:id="@+id/activity_settings_alarm_edittext_message_content_sos"
+                    android:layout_margin="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="message content"
+                    android:inputType="textMultiLine"
+                    android:textAlignment="center"/>
+            </LinearLayout>
+            <Button
+                android:layout_margin="20dp"
+                android:layout_gravity="center"
+                android:id="@+id/activity_settings_alarm_button_save"
+                android:layout_width="@dimen/button_settings"
+                android:layout_height="wrap_content"
+                android:text="save"/>
+        </LinearLayout>
+
+
+    </RelativeLayout>
+    </ScrollView>
+</LinearLayout>

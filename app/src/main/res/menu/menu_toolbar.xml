@@ -9,7 +9,7 @@
         >
     </item>
     <item
-        android:id="@+id/menu_toolbar_settings_alarm"
+        android:id="@+id/menu_toolbar_settings"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_settings"
         android:visible="false"

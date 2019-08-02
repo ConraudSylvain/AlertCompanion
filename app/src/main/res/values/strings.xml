@@ -7,5 +7,18 @@
     <string name="settings">settings</string>
     <string name="main_menu">Main Menu</string>
 
+    <!-- SMS -->
+    <string name="automatic_message">--ALERT COMPANION-- Automatic message :\u0020</string>
+
+    <!-- Settings -->
+     <string name="daily_alarm">Daily alarm</string>
+    <string name="person_to_contact">Person to contact</string>
+    <string name="phone_number">Phone number</string>
+    <string name="time_for_stop_alarm">Time for stop alarm</string>
+    <string name="second">seconds</string>
+    <string name="message_content"> Message content</string>
+    <string name="sos_message">SOS Message</string>
+
+
 
 </resources>

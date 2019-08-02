@@ -76,7 +76,6 @@ public class AlarmActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);
         menu.findItem(R.id.menu_toolbar_add_alarm).setVisible(true);
-        menu.findItem(R.id.menu_toolbar_settings_alarm).setVisible(true);
         return true;
     }
 
@@ -84,8 +83,6 @@ public class AlarmActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_toolbar_add_alarm: openTimePickerDialog();
-                return true;
-            case R.id.menu_toolbar_settings_alarm: startSettingsActivity();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -167,8 +164,5 @@ public class AlarmActivity extends AppCompatActivity {
         alarmList = AlarmService.getAlarmList(this);
     }
 
-    private void startSettingsActivity(){
-        Intent intent = new Intent(AlarmActivity.this , SettingsAlarmActivity.class);
-        startActivity(intent);
-    }
+
 }
