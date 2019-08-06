@@ -5,7 +5,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.view.Menu;
 import android.view.MenuItem;
 import androidx.annotation.NonNull;
@@ -34,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     @OnClick(R.id.activity_main_button_sos)
-    public void clickAlarmButton(){sendSmsSos();}
+    public void clickAlarmButton(){clickSosButton();}
 
     static AlertDialog alertDialog;
 
@@ -118,6 +120,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         return true;}
 
+
+    private void clickSosButton(){
+        SharedPreferences preferences = getSharedPreferences(Keys.KEY_MAIN_SAVE, MODE_PRIVATE);
+        if(preferences.getBoolean(Keys.KEY_POPUP_CONFIRM_SEND_SMS, false)){
+            displayAlertDialogConfirm();
+        }else{
+            sendSmsSos();
+        }
+    }
+
+
     /*SOS SMS*/
      //Send sms
     private void sendSmsSos(){
@@ -139,6 +152,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         alertDialog.dismiss();
         alertDialog.setMessage("status : " + status);
         alertDialog.show();
+    }
+
+    /*UTILS*/
+    private void displayAlertDialogConfirm(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Send Sms")
+                .setMessage("are you sure?")
+                .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        sendSmsSos();
+                    }
+                }).setNegativeButton("no", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        }).create().show();
     }
 
     /*Activity*/

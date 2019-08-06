@@ -3,25 +3,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.StopAlarmActivity">
+    tools:context=".view.StopAlarmActivity"
+    android:background="@drawable/main_activity_background">
+
+    <LinearLayout
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
 
     <TextView
+        android:id="@+id/activity_stop_textview_message_click"
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/activity_stop_button_stop_alarm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Click this button if you're ok"
+        android:text="Click button if you're ok"
         android:layout_margin="20dp"
         android:textSize="50sp"
         android:textAlignment="center"
-        android:textColor="@android:color/holo_red_dark"/>
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimary"/>
+
+    <ImageView
+        android:id="@+id/activity_stop_alarm_imageview_warning"
+        android:layout_gravity="center"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/warning_sign"/>
 
     <Button
+        android:layout_gravity="center"
         android:id="@+id/activity_stop_button_stop_alarm"
-        android:layout_centerInParent="true"
+        android:layout_margin="25dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="stop alarm"
+        android:textColor="@color/colorPrimaryLight"
         android:padding="30dp"/>
+    </LinearLayout>
 
 </RelativeLayout>

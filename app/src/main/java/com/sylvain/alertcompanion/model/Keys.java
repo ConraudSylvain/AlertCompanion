@@ -11,6 +11,10 @@ public class Keys {
    public static String KEY_PHONE_NUMBER_CONTACT_SOS = "phoneNumberContactSos";
    public static String KEY_MOD_MESSAGE_ALARM = "modeMessageAlarm";
    public static String KEY_MOD_MESSAGE_SOS = "modeMessageSos";
+   public static String KEY_LIST_CONTACT_ALARM = "contactListAlarm";
+   public static String KEY_LIST_CONTACT_SOS = "contactListSos";
+   public static String KEY_POPUP_CONFIRM_SEND_SMS = "popupConfirmSendSms";
+
 
 
 

@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="190dp"
+    android:layout_height="210dp"
     android:background="#B2B9E1"
     android:gravity="center"
     android:orientation="vertical">
@@ -12,7 +12,8 @@
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_launcher_foreground"
-        tools:ignore="ContentDescription" />
+        android:src="@drawable/logo_alert_companion"
+        tools:ignore="ContentDescription"
+        android:background="@android:color/black"/>
 
 </LinearLayout>

@@ -13,7 +13,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="12h15"
+        android:textColor="@android:color/white"
         android:textAlignment="center"
+        android:background="@android:color/transparent"
         android:textSize="100sp"/>
 
 </RelativeLayout>

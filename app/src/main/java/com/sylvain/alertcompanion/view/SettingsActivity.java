@@ -12,18 +12,25 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sylvain.alertcompanion.R;
+import com.sylvain.alertcompanion.controller.Utils;
 import com.sylvain.alertcompanion.model.Keys;
 
 import java.security.Key;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -42,11 +49,36 @@ public class SettingsActivity extends AppCompatActivity {
     EditText editTextPhoneNumberSos;
     @BindView(R.id.activity_settings_alarm_edittext_message_content_sos)
     EditText editTextMessageContentSos;
+    @BindView(R.id.activity_settings_alarm_textview_contact_name_sos)
+    TextView textViewNameSos;
+    @BindView(R.id.activity_settings_alarm_checkbox_confirm_send_sms)
+    CheckBox checkBoxPopUpConfirmSendSms;
+    @BindView(R.id.activity_settings_activity_linearlayout_contains_contact_alarm)
+    LinearLayout linearLayoutContainsContactAlarm;
+    @BindView(R.id.activity_settings_activity_linearlayout_contains_contact_sos)
+    LinearLayout linearLayoutContainsContactSos;
+
+
+    @OnClick(R.id.activity_settings_alarm_button_contact_alarm)
+    public void clickOpenContactAlarm(){ openContact(Keys.KEY_MOD_MESSAGE_ALARM);
+    }
+    @OnClick(R.id.activity_settings_alarm_button_add_contact_alarm)
+    public void clickAddAlarm(){
+    }
+    @OnClick(R.id.activity_settings_alarm_button_contact_sos)
+    public void clickOpenContactSos(){ openContact( Keys.KEY_MOD_MESSAGE_SOS);
+    }
+    @OnClick(R.id.activity_settings_alarm_button_add_contact_sos)
+    public void clickAddSos(){
+    }
 
     @OnClick(R.id.activity_settings_alarm_button_save)
-    public void clickSave() {
-        save();
+    public void clickSave() { save();
     }
+
+
+    private List<String> listContactAlarm = new ArrayList<>();
+    private List<String> listContactSos = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +87,6 @@ public class SettingsActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         configureToolbar();
         load();
-        test();
     }
 
 
@@ -77,8 +108,6 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);
-        //menu.findItem(R.id.menu_toolbar_add_alarm).setVisible(true);
-        //menu.findItem(R.id.menu_toolbar_settings_alarm).setVisible(true);
         return true;
     }
 
@@ -86,7 +115,6 @@ public class SettingsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_toolbar_add_alarm:
-                ;
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -97,15 +125,14 @@ public class SettingsActivity extends AppCompatActivity {
     /*UTILS*/
     //Check fields correct
     private boolean checkIfAllIsCorrect() {
-        if (editTextPhoneNumberAlarm.getText().length() != 10)
-            return false;
         if (editTextMessageContentAlarm.getText().length() == 0)
             return false;
         if (editTextDelayForStop.getText().length() == 0)
             return false;
         if (editTextMessageContentSos.getText().length() == 0)
             return false;
-        if (editTextPhoneNumberSos.getText().length() != 10)
+
+        if(listContactAlarm.size() == 0 || listContactSos.size() == 0)
             return false;
         return true;
     }
@@ -115,10 +142,14 @@ public class SettingsActivity extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences(Keys.KEY_MAIN_SAVE, MODE_PRIVATE);
         editTextDelayForStop.setText(preferences.getString(Keys.KEY_TIMER_ALARM, null));
         editTextMessageContentAlarm.setText(preferences.getString(Keys.KEY_MESSAGE_CONTENT_ALARM, null));
-        editTextPhoneNumberAlarm.setText(preferences.getString(Keys.KEY_PHONE_NUMBER_CONTACT_ALARM, null));
-        editTextPhoneNumberSos.setText(preferences.getString(Keys.KEY_PHONE_NUMBER_CONTACT_SOS, null));
         editTextMessageContentSos.setText(preferences.getString(Keys.KEY_MESSAGE_CONTENT_SOS, null));
-
+        checkBoxPopUpConfirmSendSms.setChecked(preferences.getBoolean(Keys.KEY_POPUP_CONFIRM_SEND_SMS, false));
+        if(preferences.getString(Keys.KEY_LIST_CONTACT_ALARM , null) != null)
+        listContactAlarm = Utils.convertStringContactToList(preferences.getString(Keys.KEY_LIST_CONTACT_ALARM, null)) ;
+        if(preferences.getString(Keys.KEY_LIST_CONTACT_SOS , null) != null)
+        listContactSos = Utils.convertStringContactToList(preferences.getString(Keys.KEY_LIST_CONTACT_SOS, null)) ;
+        displayListContactAlarm();
+        displayListContactSos();
     }
 
     //Saving
@@ -127,11 +158,12 @@ public class SettingsActivity extends AppCompatActivity {
             Toast.makeText(this, "erreur de saisi", Toast.LENGTH_SHORT).show();
         } else {
             SharedPreferences preferences = getSharedPreferences(Keys.KEY_MAIN_SAVE, MODE_PRIVATE);
-            preferences.edit().putString(Keys.KEY_PHONE_NUMBER_CONTACT_ALARM, editTextPhoneNumberAlarm.getText().toString()).apply();
             preferences.edit().putString(Keys.KEY_MESSAGE_CONTENT_ALARM, editTextMessageContentAlarm.getText().toString()).apply();
             preferences.edit().putString(Keys.KEY_TIMER_ALARM, editTextDelayForStop.getText().toString()).apply();
-            preferences.edit().putString(Keys.KEY_PHONE_NUMBER_CONTACT_SOS, editTextPhoneNumberSos.getText().toString()).apply();
+            preferences.edit().putString(Keys.KEY_LIST_CONTACT_SOS, Utils.convertListContactToString(listContactSos)).apply();
             preferences.edit().putString(Keys.KEY_MESSAGE_CONTENT_SOS, editTextMessageContentSos.getText().toString()).apply();
+            preferences.edit().putBoolean(Keys.KEY_POPUP_CONFIRM_SEND_SMS, checkBoxPopUpConfirmSendSms.isChecked()).apply();
+            preferences.edit().putString(Keys.KEY_LIST_CONTACT_ALARM, Utils.convertListContactToString(listContactAlarm)).apply();
             finish();
         }
     }
@@ -142,26 +174,14 @@ public class SettingsActivity extends AppCompatActivity {
         startActivity(callIntent);
     }
 
-    void test() {
-        ImageView phoneContactsButttonAlarm = findViewById(R.id.activity_settings_alarm_button_contact_alarm);
-        phoneContactsButttonAlarm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent contactPickerIntent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+    void openContact(String type) {
+
+            Intent contactPickerIntent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+            if (type.equals(Keys.KEY_MOD_MESSAGE_ALARM)){
                 startActivityForResult(contactPickerIntent, 1);
-
-            }
-        });
-
-        ImageView phoneContactsButttonSos = findViewById(R.id.activity_settings_alarm_button_contact_sos);
-        phoneContactsButttonSos.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent contactPickerIntent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+            }else{
                 startActivityForResult(contactPickerIntent, 2);
-
             }
-        });
 
     }
 
@@ -182,8 +202,10 @@ public class SettingsActivity extends AppCompatActivity {
                                 while (Objects.requireNonNull(phones).moveToNext()) {
                                     String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                                     switch (requestCode){
-                                        case 1 :editTextPhoneNumberAlarm.setText(phoneNumber); break;
-                                        case 2 : editTextPhoneNumberSos.setText(phoneNumber); break;
+                                        case 1 : addContactList(phoneNumber, name, Keys.KEY_MOD_MESSAGE_ALARM);
+                                        break;
+                                        case 2 : addContactList(phoneNumber, name,  Keys.KEY_MOD_MESSAGE_SOS);
+                                        break;
                                     }
                                 }
                                 phones.close();
@@ -194,4 +216,70 @@ public class SettingsActivity extends AppCompatActivity {
                 }
         Toast.makeText(this,"phone number of " + name, Toast.LENGTH_SHORT).show();
     }
+
+    private void addContactList(String number, String name, String type){
+        if(type.equals(Keys.KEY_MOD_MESSAGE_ALARM)){
+            listContactAlarm.add(name + "/" + number);
+            displayListContactAlarm();
+        }else{
+            listContactSos.add(name + "/" + number);
+            displayListContactSos();
+        }
+    }
+
+    private void deleteContactList(int position, String type){
+        if(type.equals(Keys.KEY_MOD_MESSAGE_ALARM)){
+            listContactAlarm.remove(position);
+            displayListContactAlarm();
+        } else{
+            listContactSos.remove(position);
+            displayListContactSos();
+        }
+    }
+
+    private void displayListContactAlarm(){
+        linearLayoutContainsContactAlarm.removeAllViews();
+        LayoutInflater layoutInflater = getLayoutInflater();
+        if(listContactAlarm.size() != 0){
+            for (String contact : listContactAlarm){
+                View view = layoutInflater.inflate(R.layout.item_contact_number_and_delete, null);
+                TextView textView = view.findViewById(R.id.item_contact_number_and_delete_textview_name_and_number);
+                String[] nameAndNumber = contact.split("/");
+                textView.setText(nameAndNumber[0] + " " +nameAndNumber[1]);
+                ImageView imageViewDelete = view.findViewById(R.id.item_contact_number_and_delete_imageview_delete);
+                imageViewDelete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        View parent = (View) v.getParent();
+                        deleteContactList( linearLayoutContainsContactAlarm.indexOfChild(parent), Keys.KEY_MOD_MESSAGE_ALARM);
+                    }
+                });
+                linearLayoutContainsContactAlarm.addView(view);
+            }
+        }
+    }
+
+
+    private void displayListContactSos(){
+        linearLayoutContainsContactSos.removeAllViews();
+        LayoutInflater layoutInflater = getLayoutInflater();
+        if(listContactSos.size() != 0){
+            for (String contact : listContactSos){
+                View view = layoutInflater.inflate(R.layout.item_contact_number_and_delete, null);
+                TextView textView = view.findViewById(R.id.item_contact_number_and_delete_textview_name_and_number);
+                String[] nameAndNumber = contact.split("/");
+                textView.setText(nameAndNumber[0] + " " +nameAndNumber[1]);
+                ImageView imageViewDelete = view.findViewById(R.id.item_contact_number_and_delete_imageview_delete);
+                imageViewDelete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        View parent = (View) v.getParent();
+                        deleteContactList( linearLayoutContainsContactSos.indexOfChild(parent), Keys.KEY_MOD_MESSAGE_SOS);
+                    }
+                });
+                linearLayoutContainsContactSos.addView(view);
+            }
+        }
+    }
+
 }

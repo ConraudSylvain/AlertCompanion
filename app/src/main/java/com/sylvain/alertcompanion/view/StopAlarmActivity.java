@@ -9,9 +9,13 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.PowerManager;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.sylvain.alertcompanion.R;
 import com.sylvain.alertcompanion.controller.AlarmReceiver;
@@ -34,6 +38,7 @@ public class StopAlarmActivity extends AppCompatActivity {
     Timer timer;
    static AlertDialog alertDialog;
    private static StopAlarmActivity parent;
+   private boolean blinkOk = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +51,7 @@ public class StopAlarmActivity extends AppCompatActivity {
         setTimer();
         unlockScreen();
         turnOnScreen();
+        blink();
     }
 
     /*ALARM*/
@@ -87,12 +93,14 @@ public class StopAlarmActivity extends AppCompatActivity {
     private void stopAlarmUser(){
        AlarmReceiver.stopAlarm();
        timer.cancel();
+       blinkOk = false;
        finish();
     }
 
     //Stop alarm no response
     private void stopAlarmAlert(){
         AlarmReceiver.stopAlarm();
+        blinkOk = false;
         parent = this;
         parent.runOnUiThread(new Runnable() {
             public void run() {
@@ -101,6 +109,30 @@ public class StopAlarmActivity extends AppCompatActivity {
         });
         SendSms.getInstance().configureAndSendSms(this, Keys.KEY_MOD_MESSAGE_ALARM);
         timer.cancel();
+    }
+
+    private void blink(){
+        final Handler handler = new Handler();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int timeToBlink = 500;    //in milissegunds
+                try{Thread.sleep(timeToBlink);}catch (Exception e) {}
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        ImageView imageviewWarning = findViewById(R.id.activity_stop_alarm_imageview_warning);
+                        if(imageviewWarning.getVisibility() == View.VISIBLE){
+                            imageviewWarning.setVisibility(View.INVISIBLE);
+                        }else{
+                            imageviewWarning.setVisibility(View.VISIBLE);
+                        }
+                        if (blinkOk)
+                        blink();
+                    }
+                });
+            }
+        }).start();
     }
 
     /*Alert dialog*/

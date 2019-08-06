@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -137,6 +139,8 @@ public class AlarmActivity extends AppCompatActivity {
     /*UTILS*/
     //Time picker dialog
     private void openTimePickerDialog(){
+
+
         TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -147,6 +151,12 @@ public class AlarmActivity extends AppCompatActivity {
         },0,0,true);
         timePickerDialog.show();
     }
+
+    /*
+    public void onCreateDialog() {
+        View v = getLayoutInflater().inflate(R.layout.time_picker_custom, null);
+         new AlertDialog.Builder(this).setView(v).create().show();
+    }*/
 
     //Save
     private void saveAlarmList(){

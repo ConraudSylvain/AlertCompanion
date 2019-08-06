@@ -5,7 +5,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
     <style name="MainTheme.Primary">
@@ -16,5 +16,8 @@
     <style name="MainTheme.Second">
         <item name="android:windowBackground">@color/colorAccent</item>
     </style>
+
+
+    
 
 </resources>
