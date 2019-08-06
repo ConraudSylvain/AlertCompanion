@@ -49,8 +49,6 @@ public class SettingsActivity extends AppCompatActivity {
     EditText editTextPhoneNumberSos;
     @BindView(R.id.activity_settings_alarm_edittext_message_content_sos)
     EditText editTextMessageContentSos;
-    @BindView(R.id.activity_settings_alarm_textview_contact_name_sos)
-    TextView textViewNameSos;
     @BindView(R.id.activity_settings_alarm_checkbox_confirm_send_sms)
     CheckBox checkBoxPopUpConfirmSendSms;
     @BindView(R.id.activity_settings_activity_linearlayout_contains_contact_alarm)

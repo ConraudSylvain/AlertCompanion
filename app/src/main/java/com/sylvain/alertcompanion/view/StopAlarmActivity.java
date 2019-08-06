@@ -15,11 +15,10 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.sylvain.alertcompanion.R;
 import com.sylvain.alertcompanion.controller.AlarmReceiver;
-import com.sylvain.alertcompanion.controller.SendSms;
+import com.sylvain.alertcompanion.controller.SendSmsService;
 import com.sylvain.alertcompanion.model.Keys;
 
 import java.util.Objects;
@@ -39,6 +38,8 @@ public class StopAlarmActivity extends AppCompatActivity {
    static AlertDialog alertDialog;
    private static StopAlarmActivity parent;
    private boolean blinkOk = true;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +108,7 @@ public class StopAlarmActivity extends AppCompatActivity {
                 displayDialogSmsStatus();
             }
         });
-        SendSms.getInstance().configureAndSendSms(this, Keys.KEY_MOD_MESSAGE_ALARM);
+        SendSmsService.getInstance().configureAndSendSms(this, Keys.KEY_MOD_MESSAGE_ALARM);
         timer.cancel();
     }
 
@@ -138,20 +139,27 @@ public class StopAlarmActivity extends AppCompatActivity {
     /*Alert dialog*/
     //Display alertdialog send sms
     private  void displayDialogSmsStatus(){
+        String contacts = getSharedPreferences(Keys.KEY_MAIN_SAVE,MODE_PRIVATE).getString(Keys.KEY_LIST_CONTACT_ALARM, null);
+        String[] tabContact = contacts.split(",");
+        int totalContact = tabContact.length;
+        StringBuilder name = new StringBuilder();
+        name.append("(");
+        for (int i = 0 ; i < tabContact.length ; i++){
+            String[] contact = tabContact[i].split("/");
+            name.append(contact[0]);
+            if (i != totalContact-1)
+                name.append(", ");
+        }
+        name.append(")");
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle("SMS sending...")
-                .setPositiveButton("ok", (dialog, which) -> {
-                    SendSms.getInstance().unregistredBroadcast();
-                    parent.finish();
-                }).setMessage("status : wait");
-               alertDialog = alertDialogBuilder.create();
-               alertDialog.show();
-    }
-
-    //Update dialog send sms
-    public static void updateStatusSmsSendForDialog(String status){
-        alertDialog.dismiss();
-        alertDialog.setMessage("status : " + status);
+                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .setMessage("send " + totalContact + " sms" + "\n" + name.toString());
+        alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }
 }

@@ -2,12 +2,10 @@ package com.sylvain.alertcompanion.view;
 
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.Preference;
 import android.view.Menu;
 import android.view.MenuItem;
 import androidx.annotation.NonNull;
@@ -19,8 +17,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.sylvain.alertcompanion.R;
 import com.sylvain.alertcompanion.controller.Permission;
-import com.sylvain.alertcompanion.controller.SendSms;
+import com.sylvain.alertcompanion.controller.SendSmsService;
 import com.sylvain.alertcompanion.model.Keys;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -39,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void clickAlarmButton(){clickSosButton();}
 
     static AlertDialog alertDialog;
+
+
 
 
     @Override
@@ -135,24 +136,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      //Send sms
     private void sendSmsSos(){
         displayDialogSmsStatus();
-            SendSms.getInstance().configureAndSendSms(this, Keys.KEY_MOD_MESSAGE_SOS);
+            SendSmsService.getInstance().configureAndSendSms(this, Keys.KEY_MOD_MESSAGE_SOS);
         }
 
         //Dialog sms status
     private void displayDialogSmsStatus(){
+
+        String contacts = getSharedPreferences(Keys.KEY_MAIN_SAVE,MODE_PRIVATE).getString(Keys.KEY_LIST_CONTACT_SOS, null);
+        String[] tabContact = contacts.split(",");
+        int totalContact = tabContact.length;
+        StringBuilder name = new StringBuilder();
+        name.append("(");
+        for (int i = 0 ; i < tabContact.length ; i++){
+            String[] contact = tabContact[i].split("/");
+            name.append(contact[0]);
+            if (i != totalContact-1)
+            name.append(", ");
+        }
+        name.append(")");
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle("SMS sending...")
-                .setPositiveButton("ok", (dialog, which) -> SendSms.getInstance().unregistredBroadcast()).setMessage("status : wait");
+                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .setMessage("send " + totalContact + " sms" + "\n" + name.toString());
         alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }
 
-    //Update dialog sms status
-    public static void updateStatusSmsSendForDialog(String status){
-        alertDialog.dismiss();
-        alertDialog.setMessage("status : " + status);
-        alertDialog.show();
-    }
+
 
     /*UTILS*/
     private void displayAlertDialogConfirm(){
