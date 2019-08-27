@@ -6,6 +6,7 @@
     android:clickable="true"
     android:background="?attr/selectableItemBackground">
 
+
     <TextView
         android:id="@+id/item_clock_display_textview_clock"
         android:layout_centerInParent="true"
@@ -13,9 +14,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="12h15"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/holo_red_light"
         android:textAlignment="center"
         android:background="@android:color/transparent"
-        android:textSize="100sp"/>
+        android:fontFamily="@font/alarm_clock"
+        android:textSize="100sp"
+        />
+
+    <View
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/holo_red_light"/>
+
 
 </RelativeLayout>

@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.telephony.SmsManager;
 import android.widget.Toast;
 
@@ -19,12 +21,13 @@ import com.sylvain.alertcompanion.view.StopAlarmActivity;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class SendSmsService {
 
 
     @SuppressLint("StaticFieldLeak")
     private static SendSmsService instance = null;
-
+    MediaPlayer player;
 
     private SendSmsService(){}
 
@@ -76,6 +79,14 @@ public class SendSmsService {
 
             SmsManager sms = SmsManager.getDefault();
             sms.sendTextMessage(phoneNumber, null, messageContent, sentPI, deliveredPI);
+
+            if(player == null){
+                Uri path = Uri.parse("android.resource://com.sylvain.alertcompanion/raw/message_envoye_fr");
+                player = MediaPlayer.create(context, path);
+            }
+            if(!player.isPlaying())
+            player.start();
+
         }
     }
 }

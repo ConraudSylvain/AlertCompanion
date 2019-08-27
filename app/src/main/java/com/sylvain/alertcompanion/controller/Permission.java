@@ -2,11 +2,16 @@ package com.sylvain.alertcompanion.controller;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
+import android.provider.Settings;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.sylvain.alertcompanion.view.SettingsActivity;
 
 
 public class Permission {
@@ -26,4 +31,13 @@ public class Permission {
             ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_CONTACTS},1);
         }
     }
+
+    public static void permissionCamera(Activity activity){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat. checkSelfPermission(activity, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat. requestPermissions(activity, new String[] {Manifest.permission.CAMERA}, 1);
+            }
+        }
+    }
+
 }

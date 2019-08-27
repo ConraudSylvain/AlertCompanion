@@ -7,24 +7,34 @@ import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.SurfaceTexture;
+import android.hardware.Camera;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
-
+import android.widget.TextView;
 import com.sylvain.alertcompanion.R;
-import com.sylvain.alertcompanion.controller.AlarmReceiver;
+import com.sylvain.alertcompanion.controller.AlarmService;
 import com.sylvain.alertcompanion.controller.SendSmsService;
 import com.sylvain.alertcompanion.model.Keys;
-
+import java.io.IOException;
 import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -32,13 +42,18 @@ public class StopAlarmActivity extends AppCompatActivity {
 
     @OnClick(R.id.activity_stop_button_stop_alarm)
     public void clickStopAlarm(){stopAlarmUser();}
+    @BindView(R.id.activity_stop_textview_message_click)
+    TextView textViewMessageClick;
 
     SharedPreferences preferences;
     Timer timer;
    static AlertDialog alertDialog;
-   private static StopAlarmActivity parent;
    private boolean blinkOk = true;
-
+   private MediaPlayer player;
+   private Camera cam ;
+   boolean stopFlash = false;
+   boolean allowFlash = false ;
+   int tentativCount;
 
 
     @Override
@@ -47,15 +62,31 @@ public class StopAlarmActivity extends AppCompatActivity {
         setContentView(R.layout.activity_stop_alarm);
         ButterKnife.bind(this);
         preferences = getSharedPreferences(Keys.KEY_MAIN_SAVE, MODE_PRIVATE);
-        timer = new Timer();
+        configureAll();
 
-        setTimer();
+    }
+
+    private void configureAll(){
+        timer = new Timer();
+        setNextAlarm();
         unlockScreen();
         turnOnScreen();
+        playAudio();
+        if(preferences.getBoolean(Keys.KEY_FLASH, true))
+        openCamera();
+        setTimer();
         blink();
     }
 
     /*ALARM*/
+    void setNextAlarm(){
+        //Configure next alarm
+        if(AlarmService.getAlarmList(this) != null)
+            AlarmService.configureAlarms(this, AlarmService.findNextAlarm(AlarmService.getAlarmList(this)));
+
+
+    }
+
     //Set timer for stop alarm before send sms
     private void setTimer(){
        timer.schedule(new TimerTask() {
@@ -88,21 +119,23 @@ public class StopAlarmActivity extends AppCompatActivity {
                     PowerManager.ACQUIRE_CAUSES_WAKEUP|
                     PowerManager.ON_AFTER_RELEASE, "AppName:tag");
             wl.acquire(10*60*1000L /*10 minutes*/);
-        }
+    }
 
     //Stop alarm user action
     private void stopAlarmUser(){
-       AlarmReceiver.stopAlarm();
+        stopAudio();
        timer.cancel();
        blinkOk = false;
+       stopFlash = true;
        finish();
     }
 
     //Stop alarm no response
     private void stopAlarmAlert(){
-        AlarmReceiver.stopAlarm();
+        stopAudio();
         blinkOk = false;
-        parent = this;
+        stopFlash = true;
+        StopAlarmActivity parent = this;
         parent.runOnUiThread(new Runnable() {
             public void run() {
                 displayDialogSmsStatus();
@@ -110,8 +143,11 @@ public class StopAlarmActivity extends AppCompatActivity {
         });
         SendSmsService.getInstance().configureAndSendSms(this, Keys.KEY_MOD_MESSAGE_ALARM);
         timer.cancel();
+        flashOff();
     }
 
+    /*UI*/
+    //Screen blink
     private void blink(){
         final Handler handler = new Handler();
         new Thread(new Runnable() {
@@ -125,8 +161,11 @@ public class StopAlarmActivity extends AppCompatActivity {
                         ImageView imageviewWarning = findViewById(R.id.activity_stop_alarm_imageview_warning);
                         if(imageviewWarning.getVisibility() == View.VISIBLE){
                             imageviewWarning.setVisibility(View.INVISIBLE);
+                            blinkFlash();
+                            vibrate();
                         }else{
                             imageviewWarning.setVisibility(View.VISIBLE);
+                            blinkFlash();
                         }
                         if (blinkOk)
                         blink();
@@ -134,6 +173,84 @@ public class StopAlarmActivity extends AppCompatActivity {
                 });
             }
         }).start();
+    }
+
+    /*FLASH*/
+
+    //Open camera for light
+    private void openCamera(){
+        tentativCount = 10;
+        Timer time = new Timer();
+        TimerTask task = new TimerTask(){
+
+            @Override
+            public void run() {
+                try{
+                    cam = Camera.open();
+                    time.cancel();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            configureFlash();
+                        }
+                    });
+
+                } catch (RuntimeException r){
+                    System.out.println("error camera.open");
+                    tentativCount -= 1;
+                    if(tentativCount <= 0)
+                        time.cancel();
+                }
+            }
+        };
+        time.scheduleAtFixedRate(task,500, 500);
+    }
+
+    //configure Flash
+    private void configureFlash(){
+        Camera.Parameters p = cam.getParameters();
+            p.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+        SurfaceTexture mPreviewTexture = new SurfaceTexture(0);
+        try{
+            cam.setParameters(p);
+            try {
+                cam.setPreviewTexture(mPreviewTexture);
+                allowFlash = true;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } catch (RuntimeException r){
+            r.printStackTrace();
+        }
+    }
+
+
+
+
+    //Flash blink
+    private void blinkFlash(){
+        if(allowFlash){
+            flashOn();
+            TimerTask task = new TimerTask() {
+                @Override
+                public void run() {
+                    flashOff();
+                }
+            };
+            new Timer().schedule(task,100);
+        }
+    }
+
+    //Turn on flask
+    private void flashOn(){
+        cam.startPreview();
+    }
+
+    //Turn off flash
+    private void flashOff(){
+        cam.stopPreview();
     }
 
     /*Alert dialog*/
@@ -161,5 +278,54 @@ public class StopAlarmActivity extends AppCompatActivity {
                 .setMessage("send " + totalContact + " sms" + "\n" + name.toString());
         alertDialog = alertDialogBuilder.create();
         alertDialog.show();
+    }
+
+
+    /*AUDIO*/
+
+     void playAudio(){
+        setVolume();
+        Uri path;
+         if(preferences.getBoolean(Keys.KEY_TYPE_ALARM_VOICE, true)){
+             path = Uri.parse("android.resource://com.sylvain.alertcompanion/raw/alert_companion_click_button_fr");
+         } else{
+             path = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+             if (path == null) {
+                 path = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+             }
+         }
+
+         player = MediaPlayer.create(this, path);
+         player.setLooping(true);
+         player.start();
+     }
+
+    private void setVolume(){
+        AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        int volumeMax = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        int settingsVolume = getSharedPreferences(Keys.KEY_MAIN_SAVE, MODE_PRIVATE).getInt(Keys.KEY_ALRM_VOLUME, 10);
+        float targetVolume =(float)  volumeMax / 10 * settingsVolume;
+
+        am.setStreamVolume(AudioManager.STREAM_MUSIC,(int) targetVolume,0);
+    }
+
+     void stopAudio(){
+
+             player.stop();
+         }
+
+     /*VIBRATE*/
+
+    private void vibrate(){
+        if(preferences.getBoolean(Keys.KEY_VIBRATE, true)){
+            Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                v.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
+            } else {
+                //deprecated in API 26
+                v.vibrate(500);
+            }
+        }
+
     }
 }

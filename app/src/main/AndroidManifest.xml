@@ -8,6 +8,11 @@
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
+
 
     <application
         android:allowBackup="true"
@@ -16,15 +21,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/MainTheme"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning"
+        android:configChanges="keyboardHidden|orientation|screenSize">
         <activity android:name=".TreatmentActivity"></activity>
         <activity android:name=".view.SettingsActivity" />
-        <activity android:name=".view.StopAlarmActivity" />
+        <activity android:name=".view.StopAlarmActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".view.AlarmActivity" />
         <activity android:name=".view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

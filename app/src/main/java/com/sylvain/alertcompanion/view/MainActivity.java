@@ -2,10 +2,18 @@ package com.sylvain.alertcompanion.view;
 
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.SurfaceTexture;
+import android.hardware.Camera;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import androidx.annotation.NonNull;
@@ -19,6 +27,8 @@ import com.sylvain.alertcompanion.R;
 import com.sylvain.alertcompanion.controller.Permission;
 import com.sylvain.alertcompanion.controller.SendSmsService;
 import com.sylvain.alertcompanion.model.Keys;
+
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,8 +58,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         configureAll();
-
-     // getSharedPreferences(Keys.KEY_MAIN_SAVE, MODE_PRIVATE).edit().clear().apply();
+        //startActivity(new Intent(this,StopAlarmActivity.class));
+        // getSharedPreferences(Keys.KEY_MAIN_SAVE, MODE_PRIVATE).edit().clear().apply();
     }
 
     @Override
@@ -59,6 +69,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+
+
     /*CONFIGURATION*/
     private void configureAll(){
         configureToolbar();
@@ -66,6 +78,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Permission.permissionSms(this);
         Permission.permissionCall(this);
         Permission.permissionContact(this);
+        Permission.permissionCamera(this);
+
+
     }
 
     /*UI*/
@@ -199,4 +214,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
+    private void flashOn(){
+        Camera cam = Camera.open();
+        Camera.Parameters p = cam.getParameters();
+        p.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+        cam.setParameters(p);
+        SurfaceTexture mPreviewTexture = new SurfaceTexture(0);
+        try {
+            cam.setPreviewTexture(mPreviewTexture);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        cam.startPreview();
+    }
 }

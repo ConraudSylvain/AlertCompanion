@@ -21,8 +21,11 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.sylvain.alertcompanion.R;
 import com.sylvain.alertcompanion.controller.Utils;
@@ -55,6 +58,16 @@ public class SettingsActivity extends AppCompatActivity {
     LinearLayout linearLayoutContainsContactAlarm;
     @BindView(R.id.activity_settings_activity_linearlayout_contains_contact_sos)
     LinearLayout linearLayoutContainsContactSos;
+    @BindView(R.id.activity_settings_seekbar_volume)
+    SeekBar seekBarVolume;
+    @BindView(R.id.activity_settings_radiobutton_alarm)
+    RadioButton radioButtonAlarm;
+    @BindView(R.id.activity_settings_radiobutton_voice)
+    RadioButton radioButtonVoice;
+    @BindView(R.id.activity_settings_togglebutton_flash)
+    ToggleButton toggleButtonFlash;
+    @BindView(R.id.activity_settings_togglebutton_vibrate)
+    ToggleButton toggleButtonVibrate;
 
 
     @OnClick(R.id.activity_settings_alarm_button_contact_alarm)
@@ -84,6 +97,7 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings_alarm);
         ButterKnife.bind(this);
         configureToolbar();
+        configureSeekBarVolume();
         load();
     }
 
@@ -145,7 +159,12 @@ public class SettingsActivity extends AppCompatActivity {
         if(preferences.getString(Keys.KEY_LIST_CONTACT_ALARM , null) != null)
         listContactAlarm = Utils.convertStringContactToList(preferences.getString(Keys.KEY_LIST_CONTACT_ALARM, null)) ;
         if(preferences.getString(Keys.KEY_LIST_CONTACT_SOS , null) != null)
-        listContactSos = Utils.convertStringContactToList(preferences.getString(Keys.KEY_LIST_CONTACT_SOS, null)) ;
+        listContactSos = Utils.convertStringContactToList(preferences.getString(Keys.KEY_LIST_CONTACT_SOS, null));
+        seekBarVolume.setProgress(preferences.getInt(Keys.KEY_ALRM_VOLUME, 10) * 10);
+        if(!preferences.getBoolean(Keys.KEY_TYPE_ALARM_VOICE, true))
+            radioButtonAlarm.setChecked(true);
+        toggleButtonFlash.setChecked(preferences.getBoolean(Keys.KEY_FLASH, true));
+        toggleButtonVibrate.setChecked(preferences.getBoolean(Keys.KEY_VIBRATE, true));
         displayListContactAlarm();
         displayListContactSos();
     }
@@ -162,15 +181,14 @@ public class SettingsActivity extends AppCompatActivity {
             preferences.edit().putString(Keys.KEY_MESSAGE_CONTENT_SOS, editTextMessageContentSos.getText().toString()).apply();
             preferences.edit().putBoolean(Keys.KEY_POPUP_CONFIRM_SEND_SMS, checkBoxPopUpConfirmSendSms.isChecked()).apply();
             preferences.edit().putString(Keys.KEY_LIST_CONTACT_ALARM, Utils.convertListContactToString(listContactAlarm)).apply();
+            preferences.edit().putInt(Keys.KEY_ALRM_VOLUME, seekBarVolume.getProgress()/10).apply();
+            preferences.edit().putBoolean(Keys.KEY_TYPE_ALARM_VOICE, radioButtonVoice.isChecked()).apply();
+            preferences.edit().putBoolean(Keys.KEY_FLASH, toggleButtonFlash.isChecked()).apply();
+            preferences.edit().putBoolean(Keys.KEY_VIBRATE, toggleButtonVibrate.isChecked()).apply();
             finish();
         }
     }
 
-    private void callPhone() {
-        Intent callIntent = new Intent(Intent.ACTION_CALL);
-        callIntent.setData(Uri.parse("tel:0685347922"));
-        startActivity(callIntent);
-    }
 
     void openContact(String type) {
 
@@ -278,6 +296,24 @@ public class SettingsActivity extends AppCompatActivity {
                 linearLayoutContainsContactSos.addView(view);
             }
         }
+    }
+
+    private void configureSeekBarVolume(){
+        seekBarVolume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                seekBarVolume.setProgress(moveCursorSeekBar(progress));
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) { }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) { }
+        });
+    }
+
+    private int moveCursorSeekBar(int progress){
+        int cursor = progress/10;
+        return cursor * 10 ;
     }
 
 }

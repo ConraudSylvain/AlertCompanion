@@ -7,9 +7,7 @@
     tools:context=".view.SettingsActivity"
     android:orientation="vertical"
     android:descendantFocusability="beforeDescendants"
-    android:focusableInTouchMode="true"
-
-    >
+    android:focusableInTouchMode="true">
 
     <include layout="@layout/toolbar"/>
 
@@ -39,8 +37,6 @@
                 android:textSize="@dimen/settings_title"
                 android:textColor="@color/colorPrimaryDark"
                 />
-
-
 
             <LinearLayout
                 android:layout_gravity="center"
@@ -155,14 +151,125 @@
             android:hint="message content"
             android:inputType="textMultiLine"
             android:textAlignment="center"/>
+
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Alarm volume"
+                android:textColor="@android:color/black"/>
+
+            <SeekBar
+                android:id="@+id/activity_settings_seekbar_volume"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="50dp"
+                android:layout_marginEnd="50dp"
+                android:layout_marginBottom="20dp"
+                android:progress="10"
+                />
         </LinearLayout>
 
 
+               <RadioGroup
+                   android:layout_gravity="center"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:orientation="horizontal"
+                   android:layout_marginBottom="20dp">
+
+                   <TextView
+                       android:layout_gravity="center"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="Alarm type"
+                       android:textColor="@android:color/black"
+                       android:layout_marginEnd="20dp"/>
+
+                   <RadioButton
+                       android:id="@+id/activity_settings_radiobutton_voice"
+                       android:text="Voice"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginEnd="30dp"
+                       android:checked="true"/>
+
+                   <RadioButton
+                       android:id="@+id/activity_settings_radiobutton_alarm"
+                       android:text="Alarm"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content" />
+               </RadioGroup>
+
+        <LinearLayout
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_gravity="end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="100"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vibrate"
+                android:layout_marginEnd="20dp"
+                android:textColor="@android:color/black"
+               />
+
+            <ToggleButton
+                android:id="@+id/activity_settings_togglebutton_vibrate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+              />
+
+
+        </LinearLayout>
+            <LinearLayout
+                android:layout_gravity="end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:textColor="@android:color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Flash"
+                    android:layout_marginEnd="20dp" />
+
+                <ToggleButton
+                    android:id="@+id/activity_settings_togglebutton_flash"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:background="@color/colorPrimary"/>
+            android:background="@color/colorPrimary"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"/>
 
 
             <TextView
