@@ -1,4 +1,4 @@
-package com.sylvain.alertcompanion.controller;
+package com.sylvain.alertcompanion.utils;
 
 import android.annotation.SuppressLint;
 

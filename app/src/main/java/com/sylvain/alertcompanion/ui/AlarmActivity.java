@@ -1,14 +1,11 @@
-package com.sylvain.alertcompanion.view;
+package com.sylvain.alertcompanion.ui;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.TimePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,11 +15,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.sylvain.alertcompanion.controller.AlarmService;
-import com.sylvain.alertcompanion.model.Keys;
+import com.sylvain.alertcompanion.utils.AlarmService;
+import com.sylvain.alertcompanion.data.Keys;
 import com.sylvain.alertcompanion.R;
-import com.sylvain.alertcompanion.controller.Utils;
-import com.sylvain.alertcompanion.controller.UtilsAlertDialog;
+import com.sylvain.alertcompanion.utils.Utils;
+import com.sylvain.alertcompanion.utils.UtilsAlertDialog;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

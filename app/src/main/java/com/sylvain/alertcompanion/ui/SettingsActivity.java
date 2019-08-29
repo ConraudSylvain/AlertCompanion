@@ -1,4 +1,4 @@
-package com.sylvain.alertcompanion.view;
+package com.sylvain.alertcompanion.ui;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,12 +11,10 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -28,10 +26,9 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.sylvain.alertcompanion.R;
-import com.sylvain.alertcompanion.controller.Utils;
-import com.sylvain.alertcompanion.model.Keys;
+import com.sylvain.alertcompanion.utils.Utils;
+import com.sylvain.alertcompanion.data.Keys;
 
-import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

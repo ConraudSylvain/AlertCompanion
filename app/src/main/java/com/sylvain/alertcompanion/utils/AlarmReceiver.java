@@ -1,23 +1,11 @@
-package com.sylvain.alertcompanion.controller;
+package com.sylvain.alertcompanion.utils;
 
 import android.content.BroadcastReceiver;
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.media.AudioAttributes;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.os.Debug;
-import android.provider.MediaStore;
-import android.util.Log;
 
-import com.sylvain.alertcompanion.view.StopAlarmActivity;
-
-import java.io.File;
+import com.sylvain.alertcompanion.ui.StopAlarmActivity;
 
 
 public class AlarmReceiver extends BroadcastReceiver {

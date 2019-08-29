@@ -15,6 +15,7 @@
 
 
     <application
+        android:name=".StethoUtils"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -23,19 +24,19 @@
         android:theme="@style/MainTheme"
         tools:ignore="GoogleAppIndexingWarning"
         android:configChanges="keyboardHidden|orientation|screenSize">
-        <activity android:name=".TreatmentActivity"></activity>
-        <activity android:name=".view.SettingsActivity" />
-        <activity android:name=".view.StopAlarmActivity"
+        <activity android:name=".ui.TreatmentActivity"></activity>
+        <activity android:name=".ui.SettingsActivity" />
+        <activity android:name=".ui.StopAlarmActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".view.AlarmActivity" />
-        <activity android:name=".view.MainActivity">
+        <activity android:name=".ui.AlarmActivity" />
+        <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <receiver android:name=".controller.AlarmReceiver" />
+        <receiver android:name=".utils.AlarmReceiver" />
     </application>
 
 </manifest>

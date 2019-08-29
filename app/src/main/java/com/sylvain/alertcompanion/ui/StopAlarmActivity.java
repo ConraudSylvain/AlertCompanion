@@ -1,4 +1,4 @@
-package com.sylvain.alertcompanion.view;
+package com.sylvain.alertcompanion.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,7 +11,6 @@ import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
@@ -26,9 +25,9 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.sylvain.alertcompanion.R;
-import com.sylvain.alertcompanion.controller.AlarmService;
-import com.sylvain.alertcompanion.controller.SendSmsService;
-import com.sylvain.alertcompanion.model.Keys;
+import com.sylvain.alertcompanion.utils.AlarmService;
+import com.sylvain.alertcompanion.utils.SendSmsService;
+import com.sylvain.alertcompanion.data.Keys;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Timer;

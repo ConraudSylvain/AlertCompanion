@@ -1,10 +1,9 @@
-package com.sylvain.alertcompanion.controller;
+package com.sylvain.alertcompanion.utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 
-import com.sylvain.alertcompanion.view.AlarmActivity;
+import com.sylvain.alertcompanion.ui.AlarmActivity;
 
 public class UtilsAlertDialog {
 

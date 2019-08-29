@@ -1,17 +1,12 @@
-package com.sylvain.alertcompanion.controller;
+package com.sylvain.alertcompanion.utils;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
-import android.provider.Settings;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
-import com.sylvain.alertcompanion.view.SettingsActivity;
 
 
 public class Permission {

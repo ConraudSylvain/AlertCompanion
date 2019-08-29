@@ -1,22 +1,16 @@
-package com.sylvain.alertcompanion.controller;
+package com.sylvain.alertcompanion.utils;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.telephony.SmsManager;
-import android.widget.Toast;
 
 import com.sylvain.alertcompanion.R;
-import com.sylvain.alertcompanion.model.Keys;
-import com.sylvain.alertcompanion.view.MainActivity;
-import com.sylvain.alertcompanion.view.StopAlarmActivity;
+import com.sylvain.alertcompanion.data.Keys;
 
 import java.util.ArrayList;
 import java.util.List;

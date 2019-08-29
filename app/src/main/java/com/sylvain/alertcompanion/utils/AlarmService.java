@@ -1,4 +1,4 @@
-package com.sylvain.alertcompanion.controller;
+package com.sylvain.alertcompanion.utils;
 
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
@@ -6,7 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
-import com.sylvain.alertcompanion.model.Keys;
+import com.sylvain.alertcompanion.data.Keys;
 
 import java.text.DateFormat;
 import java.text.ParseException;

@@ -9,9 +9,9 @@
         >
     </item>
     <item
-        android:id="@+id/menu_toolbar_settings"
+        android:id="@+id/menu_toolbar_addtreatment"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_settings"
+        android:icon="@drawable/ic_add_treatment"
         android:visible="false"
         >
     </item>

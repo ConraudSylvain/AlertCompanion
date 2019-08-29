@@ -1,19 +1,13 @@
-package com.sylvain.alertcompanion.view;
+package com.sylvain.alertcompanion.ui;
 
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import androidx.annotation.NonNull;
@@ -24,9 +18,9 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.sylvain.alertcompanion.R;
-import com.sylvain.alertcompanion.controller.Permission;
-import com.sylvain.alertcompanion.controller.SendSmsService;
-import com.sylvain.alertcompanion.model.Keys;
+import com.sylvain.alertcompanion.utils.Permission;
+import com.sylvain.alertcompanion.utils.SendSmsService;
+import com.sylvain.alertcompanion.data.Keys;
 
 import java.io.IOException;
 
@@ -98,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_toolbar_settings:
+            case 0:
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -123,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (id){
             case R.id.menu_drawer_button_alarm : startActivityAlarm();
                 break;
-            case R.id.menu_drawer_button_traitment:
+            case R.id.menu_drawer_button_traitment: startTreatmentActivity();
 
                 break;
             case R.id.menu_drawer_button_settings:startSettingsActivity();
@@ -203,15 +197,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     /*Activity*/
     private void startActivityAlarm(){
-        Intent intent = new Intent(MainActivity.this, AlarmActivity.class);
-        startActivity(intent);
+        startActivity(new Intent(MainActivity.this, AlarmActivity.class));
     }
 
     private void startSettingsActivity(){
-        Intent intent = new Intent(MainActivity.this , SettingsActivity.class);
-        startActivity(intent);
+        startActivity(new Intent(MainActivity.this , SettingsActivity.class));
     }
 
+    private void startTreatmentActivity(){
+        startActivity(new Intent(MainActivity.this, TreatmentActivity.class));
+    }
 
 
     private void flashOn(){

@@ -1,4 +1,4 @@
-package com.sylvain.alertcompanion.model;
+package com.sylvain.alertcompanion.data;
 
 public class Keys {
 
