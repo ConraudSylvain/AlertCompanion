@@ -80,12 +80,11 @@ public class AlarmActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_toolbar_add_alarm: openTimePickerDialog();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.menu_toolbar_add_alarm) {
+            openTimePickerDialog();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
 
@@ -126,9 +125,9 @@ public class AlarmActivity extends AppCompatActivity {
     //Configure next alarm
     private void configureAlarm(){
         if(alarmList == null || alarmList.size() == 0){
-            AlarmService.cancelAlarm(this);
+            AlarmService.cancelAlarm(this, Keys.KEY_ALRMMANAGER_REQUEST_CODE_ALARM);
         }else{
-            AlarmService.configureAlarms(this, AlarmService.findNextAlarm(alarmList));
+            AlarmService.configureAlarms(this, AlarmService.findNextAlarm(alarmList), Keys.KEY_ALRMMANAGER_REQUEST_CODE_ALARM);
         }
 
     }
@@ -137,14 +136,10 @@ public class AlarmActivity extends AppCompatActivity {
     //Time picker dialog
     private void openTimePickerDialog(){
 
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this, (view, hourOfDay, minute) -> {
+            addAlarmToListAlarm(Utils.convertTimeStringToDate(Utils.convertTimeIntToString(hourOfDay, minute)));
+            displayAlarms();
 
-        TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                addAlarmToListAlarm(Utils.convertTimeStringToDate(Utils.convertTimeIntToString(hourOfDay, minute)));
-                displayAlarms();
-
-            }
         },0,0,true);
         timePickerDialog.show();
     }

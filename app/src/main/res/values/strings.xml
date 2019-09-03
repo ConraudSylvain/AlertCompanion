@@ -18,6 +18,22 @@
     <string name="second">seconds</string>
     <string name="message_content"> Message content</string>
     <string name="sos_message">SOS Message</string>
+    <string name="treatment_notification">Treatment notification</string>
+    <string name="hour_morning">hour morning</string>
+    <string name="hour_midday">hour midday</string>
+    <string name="hour_evening">hour evening</string>
+    <string name="save">Save</string>
+    <string name="no_name">no name</string>
+    <string name="contact">contact</string>
+    <string name="delay">delay</string>
+    <string name="alarm_volume">Alarm volume</string>
+    <string name="alarm_type">Alarm type</string>
+    <string name="voice">Voice</string>
+    <string name="alarm">Alarm</string>
+    <string name="vibrate">Vibrate</string>
+    <string name="flash">Flash</string>
+    <string name="popup_confirm_send_sms_sos_button">Popup confirm send sms sos button</string>
+
 
     <!-- Treatment -->
     <string name="add_treatment">Add treatment</string>
@@ -29,6 +45,12 @@
     <string name="dosage">dosage</string>
     <string name="quantity">quantity</string>
     <string name="add">Add</string>
+    <string name="delete">Delete</string>
+    <string name="delete_just">Delete just</string>
+    <string name="or">or</string>
+    <string name="all_delete">all delete</string>
+    <string name="cancel">Cancel</string>
+
 
     <string name="unit_hint"><font fgcolor='#808080'>Unit</font></string> <!--green-->
 

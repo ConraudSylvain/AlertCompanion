@@ -23,8 +23,10 @@
         android:supportsRtl="true"
         android:theme="@style/MainTheme"
         tools:ignore="GoogleAppIndexingWarning"
-        android:configChanges="keyboardHidden|orientation|screenSize">
-        <activity android:name=".ui.TreatmentActivity"></activity>
+        android:configChanges="keyboardHidden|orientation|screenSize"
+        android:fullBackupContent="true">
+        <activity android:name=".ui.TreatmentActivity"
+            android:parentActivityName=".ui.MainActivity"/>
         <activity android:name=".ui.SettingsActivity" />
         <activity android:name=".ui.StopAlarmActivity"
             android:screenOrientation="portrait"/>
@@ -37,6 +39,8 @@
         </activity>
 
         <receiver android:name=".utils.AlarmReceiver" />
+        <receiver android:name=".utils.NotificationReceiver" />
+
     </application>
 
 </manifest>

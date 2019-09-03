@@ -25,7 +25,8 @@
             android:layout_centerInParent="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            tools:ignore="UselessParent">
 
             <TextView
                 android:layout_gravity="center"
@@ -61,7 +62,8 @@
                     android:hint="@string/phone_number"
                     android:inputType="phone"
                     android:textAlignment="center"
-                    android:layout_margin="0dp"/>
+                    android:layout_margin="0dp"
+                    tools:ignore="Autofill" />
 
 
                 <ImageView
@@ -72,6 +74,7 @@
                     android:background="@drawable/ic_contact"
                     android:focusable="true"
                     android:clickable="true"
+                    android:contentDescription="@string/contact"
                     />
 
                 <ImageView
@@ -82,6 +85,7 @@
                     android:background="@drawable/ic_add"
                     android:focusable="true"
                     android:clickable="true"
+                    android:contentDescription="@string/add_number"
                     />
 
 
@@ -116,10 +120,11 @@
                 android:id="@+id/activity_settings_alarm_edittext_delay_for_stop"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="delay"
+                android:hint="@string/delay"
                 android:inputType="phone"
                 android:textAlignment="center"
-                android:layout_margin="10dp"/>
+                android:layout_margin="10dp"
+                tools:ignore="Autofill" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -148,9 +153,10 @@
             android:layout_margin="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="message content"
+            android:hint="@string/message_content"
             android:inputType="textMultiLine"
-            android:textAlignment="center"/>
+            android:textAlignment="center"
+            tools:ignore="Autofill" />
 
 
 
@@ -165,7 +171,7 @@
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Alarm volume"
+                android:text="@string/alarm_volume"
                 android:textColor="@android:color/black"/>
 
             <SeekBar
@@ -191,13 +197,13 @@
                        android:layout_gravity="center"
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
-                       android:text="Alarm type"
+                       android:text="@string/alarm_type"
                        android:textColor="@android:color/black"
                        android:layout_marginEnd="20dp"/>
 
                    <RadioButton
                        android:id="@+id/activity_settings_radiobutton_voice"
-                       android:text="Voice"
+                       android:text="@string/voice"
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:layout_marginEnd="30dp"
@@ -205,7 +211,7 @@
 
                    <RadioButton
                        android:id="@+id/activity_settings_radiobutton_alarm"
-                       android:text="Alarm"
+                       android:text="@string/alarm"
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content" />
                </RadioGroup>
@@ -227,7 +233,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Vibrate"
+                android:text="@string/vibrate"
                 android:layout_marginEnd="20dp"
                 android:textColor="@android:color/black"
                />
@@ -250,7 +256,7 @@
                     android:textColor="@android:color/black"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Flash"
+                    android:text="@string/flash"
                     android:layout_marginEnd="20dp" />
 
                 <ToggleButton
@@ -304,7 +310,8 @@
                         android:hint="@string/phone_number"
                         android:inputType="phone"
                         android:textAlignment="center"
-                        android:layout_margin="0dp"/>
+                        android:layout_margin="0dp"
+                        tools:ignore="Autofill" />
 
 
                 <ImageView
@@ -315,6 +322,7 @@
                     android:background="@drawable/ic_contact"
                     android:focusable="true"
                     android:clickable="true"
+                    android:contentDescription="@string/contact"
                     />
 
                 <ImageView
@@ -325,6 +333,7 @@
                     android:background="@drawable/ic_add"
                     android:focusable="true"
                     android:clickable="true"
+                    android:contentDescription="@string/add_number"
                     />
 
 
@@ -358,9 +367,10 @@
                     android:layout_margin="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="message content"
+                    android:hint="@string/message_content"
                     android:inputType="textMultiLine"
-                    android:textAlignment="center"/>
+                    android:textAlignment="center"
+                    tools:ignore="Autofill" />
             </LinearLayout>
 
             <LinearLayout
@@ -372,16 +382,134 @@
                     android:id="@+id/activity_settings_alarm_checkbox_confirm_send_sms"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="popup confirm send sms SOS button"/>
+                    android:text="@string/popup_confirm_send_sms_sos_button"/>
 
             </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/colorPrimary"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"/>
+
+            <TextView
+                android:layout_gravity="center"
+                android:layout_margin="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="@string/treatment"
+                android:textSize="@dimen/settings_title"
+                android:textColor="@color/colorPrimaryDark"
+                />
+
+
+            <LinearLayout
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <CheckBox
+                    android:id="@+id/activity_settings_checkbox_notification_treatment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/treatment_notification"/>
+
+                <LinearLayout
+                    android:layout_marginTop="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/hour_morning"
+                        android:textColor="@android:color/black"
+                        android:layout_marginEnd="20dp"
+                        />
+
+                    <EditText
+                        android:id="@+id/activity_settings_edittext_hour_morning_treatment"
+                        android:inputType="none"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="08:00"
+                        android:textColorHint="@android:color/black"
+                        android:focusable="false"
+                        android:clickable="false"
+                        tools:ignore="Autofill,HardcodedText" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_marginTop="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/hour_midday"
+                        android:textColor="@android:color/black"
+                        android:layout_marginEnd="20dp"
+                        />
+
+                    <EditText
+                        android:id="@+id/activity_settings_edittext_hour_midday_treatment"
+                        android:inputType="none"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="12:00"
+                        android:textColorHint="@android:color/black"
+                        android:focusable="false"
+                        android:clickable="false"
+                        tools:ignore="Autofill,HardcodedText" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/hour_evening"
+                        android:textColor="@android:color/black"
+                        android:layout_marginEnd="20dp"
+                        />
+
+                    <EditText
+                        android:id="@+id/activity_settings_edittext_hour_evening_treatment"
+                        android:inputType="none"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="19:00"
+                        android:textColorHint="@android:color/black"
+                        android:focusable="false"
+                        android:clickable="false"
+                        tools:ignore="Autofill,HardcodedText"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
             <Button
-                android:layout_margin="20dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="40dp"
                 android:layout_gravity="center"
                 android:id="@+id/activity_settings_alarm_button_save"
                 android:layout_width="@dimen/button_settings"
                 android:layout_height="wrap_content"
-                android:text="save"/>
+                android:text="@string/save"/>
+
+
+
         </LinearLayout>
 
 

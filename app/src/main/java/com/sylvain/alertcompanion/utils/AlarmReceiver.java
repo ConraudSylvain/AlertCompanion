@@ -9,7 +9,6 @@ import com.sylvain.alertcompanion.ui.StopAlarmActivity;
 
 
 public class AlarmReceiver extends BroadcastReceiver {
-    public static Ringtone ringtone;
     @Override
     public void onReceive(Context context, Intent intent) {
 
@@ -17,18 +16,6 @@ public class AlarmReceiver extends BroadcastReceiver {
         intentStopAlarm.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intentStopAlarm.setClass(context, StopAlarmActivity.class);
         context.startActivity(intentStopAlarm);
-
-
-
-        /*
-        ringtone = RingtoneManager.getRingtone(context, alarmUri);
-        ringtone.play();*/
-
-
-
-
-
-//        ringtone.stop();
 
 
     }

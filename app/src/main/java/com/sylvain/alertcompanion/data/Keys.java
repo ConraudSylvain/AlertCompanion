@@ -16,6 +16,15 @@ public class Keys {
    public static String KEY_TYPE_ALARM_VOICE = "typeAlarmVoice";
    public static String KEY_FLASH = "flash";
    public static String KEY_VIBRATE = "vibrate";
+   public static String KEY_NOTIFICATION_TREATMENT;
+   public static String KEY_HOUR_NOTIFICATION_MORNING = "hourNotificationMorning";
+   public static String KEY_HOUR_NOTIFICATION_MIDDAY = "hourNotificationMidday";
+   public static String KEY_HOUR_NOTIFICATION_EVENING = "hourNotificationEvening";
+
+
+   public final static int KEY_ALRMMANAGER_REQUEST_CODE_ALARM = 0;
+   public final static int KEY_ALRMMANAGER_REQUEST_CODE_NOTIFICATION = 1;
+
 
 
 

@@ -81,7 +81,7 @@ public class StopAlarmActivity extends AppCompatActivity {
     void setNextAlarm(){
         //Configure next alarm
         if(AlarmService.getAlarmList(this) != null)
-            AlarmService.configureAlarms(this, AlarmService.findNextAlarm(AlarmService.getAlarmList(this)));
+            AlarmService.configureAlarms(this, AlarmService.findNextAlarm(AlarmService.getAlarmList(this)), Keys.KEY_ALRMMANAGER_REQUEST_CODE_ALARM);
 
 
     }
@@ -135,11 +135,7 @@ public class StopAlarmActivity extends AppCompatActivity {
         blinkOk = false;
         stopFlash = true;
         StopAlarmActivity parent = this;
-        parent.runOnUiThread(new Runnable() {
-            public void run() {
-                displayDialogSmsStatus();
-            }
-        });
+        parent.runOnUiThread(this::displayDialogSmsStatus);
         SendSmsService.getInstance().configureAndSendSms(this, Keys.KEY_MOD_MESSAGE_ALARM);
         timer.cancel();
         flashOff();
@@ -149,28 +145,22 @@ public class StopAlarmActivity extends AppCompatActivity {
     //Screen blink
     private void blink(){
         final Handler handler = new Handler();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                int timeToBlink = 500;    //in milissegunds
-                try{Thread.sleep(timeToBlink);}catch (Exception e) {}
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        ImageView imageviewWarning = findViewById(R.id.activity_stop_alarm_imageview_warning);
-                        if(imageviewWarning.getVisibility() == View.VISIBLE){
-                            imageviewWarning.setVisibility(View.INVISIBLE);
-                            blinkFlash();
-                            vibrate();
-                        }else{
-                            imageviewWarning.setVisibility(View.VISIBLE);
-                            blinkFlash();
-                        }
-                        if (blinkOk)
-                        blink();
-                    }
-                });
-            }
+        new Thread(() -> {
+            int timeToBlink = 500;    //in milissegunds
+            try{Thread.sleep(timeToBlink);}catch (Exception e) {e.printStackTrace();}
+            handler.post(() -> {
+                ImageView imageviewWarning = findViewById(R.id.activity_stop_alarm_imageview_warning);
+                if(imageviewWarning.getVisibility() == View.VISIBLE){
+                    imageviewWarning.setVisibility(View.INVISIBLE);
+                    blinkFlash();
+                    vibrate();
+                }else{
+                    imageviewWarning.setVisibility(View.VISIBLE);
+                    blinkFlash();
+                }
+                if (blinkOk)
+                blink();
+            });
         }).start();
     }
 
@@ -187,12 +177,7 @@ public class StopAlarmActivity extends AppCompatActivity {
                 try{
                     cam = Camera.open();
                     time.cancel();
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            configureFlash();
-                        }
-                    });
+                    runOnUiThread(StopAlarmActivity.this::configureFlash);
 
                 } catch (RuntimeException r){
                     System.out.println("error camera.open");
@@ -256,7 +241,7 @@ public class StopAlarmActivity extends AppCompatActivity {
     //Display alertdialog send sms
     private  void displayDialogSmsStatus(){
         String contacts = getSharedPreferences(Keys.KEY_MAIN_SAVE,MODE_PRIVATE).getString(Keys.KEY_LIST_CONTACT_ALARM, null);
-        String[] tabContact = contacts.split(",");
+        String[] tabContact = Objects.requireNonNull(contacts).split(",");
         int totalContact = tabContact.length;
         StringBuilder name = new StringBuilder();
         name.append("(");
@@ -269,10 +254,7 @@ public class StopAlarmActivity extends AppCompatActivity {
         name.append(")");
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle("SMS sending...")
-                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
+                .setPositiveButton("ok", (dialog, which) -> {
                 })
                 .setMessage("send " + totalContact + " sms" + "\n" + name.toString());
         alertDialog = alertDialogBuilder.create();
