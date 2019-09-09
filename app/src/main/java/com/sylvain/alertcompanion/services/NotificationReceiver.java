@@ -1,4 +1,4 @@
-package com.sylvain.alertcompanion.utils;
+package com.sylvain.alertcompanion.services;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -11,9 +11,9 @@ import android.os.Build;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import com.sylvain.alertcompanion.R;
-import com.sylvain.alertcompanion.data.DatabaseTreatment;
-import com.sylvain.alertcompanion.data.Keys;
-import com.sylvain.alertcompanion.data.Treatment;
+import com.sylvain.alertcompanion.data.room.DatabaseTreatment;
+import com.sylvain.alertcompanion.utils.Keys;
+import com.sylvain.alertcompanion.data.entities.Treatment;
 import com.sylvain.alertcompanion.ui.TreatmentActivity;
 import java.util.Date;
 import java.util.List;
@@ -35,7 +35,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 
     private void createNotificationChannel(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "Notification treatment AlertCompanion";
+            CharSequence name = context.getResources().getString(R.string.its_time_to_take_treatment);
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel("1", name, importance);
             NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
@@ -52,7 +52,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 
         NotificationCompat.Builder notifBuilder = new NotificationCompat.Builder(context, "1")
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
-                .setContentTitle("it's time to take the treatment")
+                .setContentTitle(context.getResources().getString(R.string.its_time_to_take_treatment))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setStyle(new NotificationCompat.BigTextStyle()
                         .bigText(createContentNotif(context)))

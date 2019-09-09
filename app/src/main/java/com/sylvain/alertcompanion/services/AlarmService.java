@@ -1,4 +1,4 @@
-package com.sylvain.alertcompanion.utils;
+package com.sylvain.alertcompanion.services;
 
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
@@ -6,9 +6,10 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.Preference;
 
-import com.sylvain.alertcompanion.data.Keys;
+import com.sylvain.alertcompanion.utils.Keys;
+import com.sylvain.alertcompanion.utils.Converter;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -82,7 +83,6 @@ public class AlarmService {
                 }
         }
         return alarmList.get(0);
-
     }
 
     //Get list all alarm
@@ -95,7 +95,7 @@ public class AlarmService {
         }else{
             alarm = alarms.split(",");
             for( String date : alarm){
-                alarmList.add(Utils.convertTimeStringToDate(date));
+                alarmList.add(Converter.convertTimeStringToDate(date));
             }
         }
         return alarmList;
@@ -104,9 +104,9 @@ public class AlarmService {
      static List<Date> getListHourNotification(Context context){
         SharedPreferences preferences = context.getSharedPreferences(Keys.KEY_MAIN_SAVE, MODE_PRIVATE);
         List<Date> lstHour = new ArrayList<>();
-        lstHour.add(Utils.convertTimeStringToDate(preferences.getString(Keys.KEY_HOUR_NOTIFICATION_MORNING, "08:00")));
-        lstHour.add(Utils.convertTimeStringToDate(preferences.getString(Keys.KEY_HOUR_NOTIFICATION_MIDDAY, "12:00")));
-        lstHour.add(Utils.convertTimeStringToDate(preferences.getString(Keys.KEY_HOUR_NOTIFICATION_EVENING, "19:00")));
+        lstHour.add(Converter.convertTimeStringToDate(preferences.getString(Keys.KEY_HOUR_NOTIFICATION_MORNING, "08:00")));
+        lstHour.add(Converter.convertTimeStringToDate(preferences.getString(Keys.KEY_HOUR_NOTIFICATION_MIDDAY, "12:00")));
+        lstHour.add(Converter.convertTimeStringToDate(preferences.getString(Keys.KEY_HOUR_NOTIFICATION_EVENING, "19:00")));
         return lstHour;
     }
 }

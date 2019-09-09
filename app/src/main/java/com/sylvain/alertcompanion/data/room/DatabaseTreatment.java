@@ -1,4 +1,4 @@
-package com.sylvain.alertcompanion.data;
+package com.sylvain.alertcompanion.data.room;
 
 
 import android.content.Context;
@@ -6,6 +6,8 @@ import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+
+import com.sylvain.alertcompanion.data.entities.Treatment;
 
 @Database(entities = {Treatment.class}, version = 1, exportSchema = false)
 public abstract class DatabaseTreatment extends RoomDatabase {

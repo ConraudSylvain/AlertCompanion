@@ -7,18 +7,22 @@
 
 
 
-    <item android:title="@string/main_menu">
+    <item android:title="@string/main_menu"
+        >
         <menu>
             <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/menu_drawer_button_alarm"
-                    android:title="@string/alarms" />
+                    android:title="@string/alarms"
+                    android:icon="@drawable/ic_alarm"/>
                 <item
                     android:id="@+id/menu_drawer_button_traitment"
-                    android:title="@string/treatment" />
+                    android:title="@string/treatment"
+                    android:icon="@drawable/ic_drugs"/>
                 <item
                     android:id="@+id/menu_drawer_button_settings"
-                    android:title="@string/settings" />
+                    android:title="@string/settings"
+                    android:icon="@drawable/ic_settings"/>
             </group>
         </menu>
     </item>

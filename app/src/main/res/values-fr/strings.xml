@@ -1,0 +1,109 @@
+<resources>
+    <string name="app_name">AlertCompanion</string>
+
+    <!-- Menu Drawer -->
+    <string name="alarms">Alarmes</string>
+    <string name="treatment">Traitement</string>
+    <string name="settings">Options</string>
+    <string name="main_menu">Menu</string>
+
+    <!-- SMS -->
+    <string name="automatic_message">--ALERT COMPANION-- Message automatique :\u0020</string>
+
+    <!-- Settings -->
+    <string name="daily_alarm">Alarme quotidienne</string>
+    <string name="add_number">Ajouter numéro</string>
+    <string name="phone_number">Numéro</string>
+    <string name="time_for_stop_alarm">Durée de l\'alarme</string>
+    <string name="second">secondes</string>
+    <string name="message_content">Contenu du message</string>
+    <string name="sos_message">SOS Message</string>
+    <string name="treatment_notification">Notification traitement</string>
+    <string name="hour_morning">heure du matin</string>
+    <string name="hour_midday">heure du midi</string>
+    <string name="hour_evening">heure du soir</string>
+    <string name="save">Sauvegarder</string>
+    <string name="no_name">sans nom</string>
+    <string name="contact">contacte</string>
+    <string name="delay">délai</string>
+    <string name="alarm_volume">Volume alarme</string>
+    <string name="alarm_type">Type d\'alarme</string>
+    <string name="voice">Voix</string>
+    <string name="alarm">Alarme</string>
+    <string name="vibrate">Vibreur</string>
+    <string name="flash">Flash</string>
+    <string name="popup_confirm_send_sms_sos_button">Popup confirmation envoyer message boutton SOS</string>
+    <string name="restart_app">réinitialiser l\'application</string>
+    <string name="quit_without_saving">Quitter sans sauvegarder</string>
+    <string name="all_fields_have_to_be_completed">tous les champs doivent être remplis</string>
+    <string name="hour_notification_not_correct">Les heures de notifications ne sont pas correctes</string>
+    <string name="message_content_must_be_filled_out">Les contenus de message doivent être remplis</string>
+    <string name="delay_must_be_filled_out">le délai doit être rempli</string>
+    <string name="phone_number_must_be_filled_out">les numéros de télephones sont obligatoires</string>
+    <string name="yes">oui</string>
+
+
+
+
+
+
+
+    <string name="text_alarm_not_disable">Une alarme n\'a pas été désactivé par l\'utilisateur</string>
+    <string name="text_sos">L\'utilisateur a cliqué sur le boutton SOS</string>
+
+    <!-- Stopalarm activity -->
+    <string name="click_button_if_you_are_ok">Cliquez sur le boutton si tout va bien</string>
+    <string name="stop_alarm">Arrêter l\'alarme</string>
+
+
+    <!-- Treatment -->
+    <string name="add_treatment">Ajouter traitement</string>
+    <string name="name">Nom</string>
+    <string name="name_of_the_drug">Nom du médicament</string>
+    <string name="morning">Matin</string>
+    <string name="midday">Midi</string>
+    <string name="evening">Soir</string>
+    <string name="dosage">Posologie</string>
+    <string name="quantity">Quantité</string>
+    <string name="add">Ajouter</string>
+    <string name="delete">Effacer</string>
+    <string name="delete_just">Effacer juste</string>
+    <string name="or">ou</string>
+    <string name="all_delete">Tout effacer</string>
+    <string name="cancel">Retour</string>
+    <string name="and">et</string>
+
+    <!-- Notification -->
+    <string name="its_time_to_take_treatment">Il est l\'heure de prendre le traitement</string>
+
+    <string name="unit_hint"><font fgcolor='#808080'>Unité</font></string>
+
+
+
+    <string-array name="dosage_drugs">
+        <item>@string/unit_hint</item>
+        <item>cachet</item>
+        <item>cuillère à soupe</item>
+        <item>cuillère à café</item>
+        <item>milligramme</item>
+
+    </string-array>
+
+
+    <!-- Tuto -->
+    <string name="next">suivant</string>
+    <string name="phone_book">répertoire</string>
+    <string name="finish">terminer</string>
+    <string name="tuto_text_welcom">Bienvenu sur AlertCompanion. Nous allons vous aider à configurer les premieres options (scroller vers le bas si tout le texte ne s\'affiche pas) </string>
+    <string name="tuto_text_permission">Pour commencer nous avons besoin des permissions d\'accès aux contacts, flash et envoie de SMS</string>
+    <string name="tuto_description">Vous pouvez programmer une ou plusieurs alarmes qui, si elles ne sont pas arrêtées par l\'utilisateur enverront un SMS aux contacts choisis. Un boutton SOS permet aussi d\'envoyer un SMS directement en cas d\'urgence</string>
+    <string name="tuto_contact">Ajouter les contacts qui recevront les SMS, depuis votre répertoire ou en entrant le numéro</string>
+    <string name="tuto_end">Beaucoup d\'autres options sont disponibles dans le menu options. N\'oubliez pas d\'ajouter des alarmes via le menu alarme</string>
+
+    <string name="required_permission">Permissions obligatoires</string>
+    <string name="for_use_application_you_must_allow_all_permission">Pour que l\'application fonctionne il est nécessaire d\'accepter les permissions</string>
+    <string name="allow_permission">Accepter les permissions</string>
+    <string name="quit_application">Quitter l\' application</string>
+
+
+</resources>

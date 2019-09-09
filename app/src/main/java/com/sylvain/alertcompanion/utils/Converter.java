@@ -1,15 +1,16 @@
 package com.sylvain.alertcompanion.utils;
 
 import android.annotation.SuppressLint;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-public class Utils {
+
+public class Converter {
 
     public static String convertTimeIntToString(int hour, int minute){
         String hourStr = String.valueOf(hour);
@@ -23,7 +24,6 @@ public class Utils {
         return hourStr + ":" + minuteStr;
     }
 
-
     public static Date convertTimeStringToDate(String time){
         @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("HH:mm");
         try {
@@ -31,7 +31,7 @@ public class Utils {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        throw new IllegalArgumentException("error class Utils");
+        throw new IllegalArgumentException("error class Converter");
     }
 
     public static String convertListContactToString(List<String> lstContact){
@@ -44,11 +44,7 @@ public class Utils {
     }
 
     public static List<String> convertStringContactToList(String contact){
-        List<String> lstContact = new ArrayList<>();
         String[] tabContact = contact.split(",");
-        for(String s : tabContact){
-            lstContact.add(s);
-        }
-        return lstContact;
+        return new ArrayList<>(Arrays.asList(tabContact));
     }
 }

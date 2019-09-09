@@ -6,7 +6,10 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -24,13 +27,16 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 import com.sylvain.alertcompanion.R;
-import com.sylvain.alertcompanion.utils.AlarmService;
-import com.sylvain.alertcompanion.utils.Utils;
-import com.sylvain.alertcompanion.data.Keys;
+import com.sylvain.alertcompanion.data.room.DatabaseTreatment;
+import com.sylvain.alertcompanion.services.AlarmService;
+import com.sylvain.alertcompanion.utils.Converter;
+import com.sylvain.alertcompanion.utils.Keys;
+import com.sylvain.alertcompanion.utils.Tuto;
+import com.sylvain.alertcompanion.utils.UtilsAlertDialog;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -89,8 +95,8 @@ public class SettingsActivity extends AppCompatActivity {
     public void clickAddSos(){addCustomContactSos();
     }
 
-    @OnClick(R.id.activity_settings_alarm_button_save)
-    public void clickSave() { save();
+    @OnClick(R.id.activity_settings_alarm_button_restart)
+    public void clickRestart() { UtilsAlertDialog.displayAlertDialogConfirmRestart(this);
     }
 
     private List<String> listContactAlarm = new ArrayList<>();
@@ -130,12 +136,14 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+        menu.findItem(R.id.menu_toolbar_save_settings).setVisible(true);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.menu_toolbar_add_alarm) {
+        if (item.getItemId() == R.id.menu_toolbar_save_settings) {
+            save();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -191,14 +199,14 @@ public class SettingsActivity extends AppCompatActivity {
     //Loading et set text
     private void load() {
         SharedPreferences preferences = getSharedPreferences(Keys.KEY_MAIN_SAVE, MODE_PRIVATE);
-        editTextDelayForStop.setText(preferences.getString(Keys.KEY_TIMER_ALARM, null));
+        editTextDelayForStop.setText(String.valueOf(preferences.getInt(Keys.KEY_TIMER_ALARM, 30)) );
         editTextMessageContentAlarm.setText(preferences.getString(Keys.KEY_MESSAGE_CONTENT_ALARM, null));
         editTextMessageContentSos.setText(preferences.getString(Keys.KEY_MESSAGE_CONTENT_SOS, null));
         checkBoxPopUpConfirmSendSms.setChecked(preferences.getBoolean(Keys.KEY_POPUP_CONFIRM_SEND_SMS, false));
         if(preferences.getString(Keys.KEY_LIST_CONTACT_ALARM , null) != null)
-            listContactAlarm = Utils.convertStringContactToList(Objects.requireNonNull(preferences.getString(Keys.KEY_LIST_CONTACT_ALARM, null))) ;
+            listContactAlarm = Converter.convertStringContactToList(Objects.requireNonNull(preferences.getString(Keys.KEY_LIST_CONTACT_ALARM, null))) ;
         if(preferences.getString(Keys.KEY_LIST_CONTACT_SOS , null) != null)
-            listContactSos = Utils.convertStringContactToList(Objects.requireNonNull(preferences.getString(Keys.KEY_LIST_CONTACT_SOS, null)));
+            listContactSos = Converter.convertStringContactToList(Objects.requireNonNull(preferences.getString(Keys.KEY_LIST_CONTACT_SOS, null)));
         seekBarVolume.setProgress(preferences.getInt(Keys.KEY_ALRM_VOLUME, 10) * 10);
         if(!preferences.getBoolean(Keys.KEY_TYPE_ALARM_VOICE, true))
             radioButtonAlarm.setChecked(true);
@@ -214,17 +222,15 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     //Saving
-    private void save() {
-        if (!checkIfAllIsCorrect()) {
-            Toast.makeText(this, "erreur de saisi", Toast.LENGTH_SHORT).show();
-        } else {
+    public void save() {
+        if (checkIfAllIsCorrect()) {
             SharedPreferences preferences = getSharedPreferences(Keys.KEY_MAIN_SAVE, MODE_PRIVATE);
             preferences.edit().putString(Keys.KEY_MESSAGE_CONTENT_ALARM, editTextMessageContentAlarm.getText().toString()).apply();
-            preferences.edit().putString(Keys.KEY_TIMER_ALARM, editTextDelayForStop.getText().toString()).apply();
-            preferences.edit().putString(Keys.KEY_LIST_CONTACT_SOS, Utils.convertListContactToString(listContactSos)).apply();
+            preferences.edit().putInt(Keys.KEY_TIMER_ALARM, Integer.valueOf(editTextDelayForStop.getText().toString()) ).apply();
+            preferences.edit().putString(Keys.KEY_LIST_CONTACT_SOS, Converter.convertListContactToString(listContactSos)).apply();
             preferences.edit().putString(Keys.KEY_MESSAGE_CONTENT_SOS, editTextMessageContentSos.getText().toString()).apply();
             preferences.edit().putBoolean(Keys.KEY_POPUP_CONFIRM_SEND_SMS, checkBoxPopUpConfirmSendSms.isChecked()).apply();
-            preferences.edit().putString(Keys.KEY_LIST_CONTACT_ALARM, Utils.convertListContactToString(listContactAlarm)).apply();
+            preferences.edit().putString(Keys.KEY_LIST_CONTACT_ALARM, Converter.convertListContactToString(listContactAlarm)).apply();
             preferences.edit().putInt(Keys.KEY_ALRM_VOLUME, seekBarVolume.getProgress()/10).apply();
             preferences.edit().putBoolean(Keys.KEY_TYPE_ALARM_VOICE, radioButtonVoice.isChecked()).apply();
             preferences.edit().putBoolean(Keys.KEY_FLASH, toggleButtonFlash.isChecked()).apply();
@@ -322,14 +328,28 @@ public class SettingsActivity extends AppCompatActivity {
     /*UTILS*/
     //Check fields correct
     private boolean checkIfAllIsCorrect() {
-        if (editTextMessageContentAlarm.getText().length() == 0)
+        if (editTextMessageContentAlarm.getText().length() == 0 || editTextMessageContentSos.getText().length() == 0){
+            Toast.makeText(this, getResources().getString(R.string.message_content_must_be_filled_out), Toast.LENGTH_SHORT).show();
             return false;
-        if (editTextDelayForStop.getText().length() == 0)
+        }
+        if (editTextDelayForStop.getText().length() == 0){
+            Toast.makeText(this, getResources().getString(R.string.delay_must_be_filled_out), Toast.LENGTH_SHORT).show();
             return false;
-        if (editTextMessageContentSos.getText().length() == 0)
-            return false;
+        }
+        int hourMorning = Integer.valueOf(editTextHourMorning.getText().toString().replace(":",""));
+        int hourMidday = Integer.valueOf(editTextHourMidday.getText().toString().replace(":", "")) ;
+        int hourEvening = Integer.valueOf(editTextHourEvening.getText().toString().replace(":", ""));
 
-        return listContactAlarm.size() != 0 && listContactSos.size() != 0;
+        if(hourMorning > hourMidday || hourMorning > hourEvening || hourMidday > hourEvening){
+            Toast.makeText(this, getResources().getString(R.string.hour_notification_not_correct), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if(listContactAlarm.size() == 0 || listContactSos.size() == 0) {
+            Toast.makeText(this, getResources().getString(R.string.phone_number_must_be_filled_out), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 
     private void configureSeekBarVolume(){
@@ -361,9 +381,9 @@ public class SettingsActivity extends AppCompatActivity {
 
         TimePickerDialog timePickerDialog = new TimePickerDialog(this, (view, hourOfDay, minute) -> {
             switch (id){
-                case ("morning"): editTextHourMorning.setText(Utils.convertTimeIntToString(hourOfDay, minute)); break;
-                case ("midday") : editTextHourMidday.setText(Utils.convertTimeIntToString(hourOfDay, minute)); break;
-                case ("evening") : editTextHourEvening.setText(Utils.convertTimeIntToString(hourOfDay, minute)); break;
+                case ("morning"): editTextHourMorning.setText(Converter.convertTimeIntToString(hourOfDay, minute)); break;
+                case ("midday") : editTextHourMidday.setText(Converter.convertTimeIntToString(hourOfDay, minute)); break;
+                case ("evening") : editTextHourEvening.setText(Converter.convertTimeIntToString(hourOfDay, minute)); break;
             }
         },0,0,true);
         timePickerDialog.show();
@@ -375,11 +395,32 @@ public class SettingsActivity extends AppCompatActivity {
             AlarmService.cancelAlarm(this, Keys.KEY_ALRMMANAGER_REQUEST_CODE_NOTIFICATION);
         } else{
             List<Date> lstHour = new ArrayList<>();
-            lstHour.add(Utils.convertTimeStringToDate(editTextHourMorning.getText().toString()));
-            lstHour.add(Utils.convertTimeStringToDate(editTextHourMidday.getText().toString()));
-            lstHour.add(Utils.convertTimeStringToDate(editTextHourEvening.getText().toString()));
+            lstHour.add(Converter.convertTimeStringToDate(editTextHourMorning.getText().toString()));
+            lstHour.add(Converter.convertTimeStringToDate(editTextHourMidday.getText().toString()));
+            lstHour.add(Converter.convertTimeStringToDate(editTextHourEvening.getText().toString()));
 
             AlarmService.configureAlarms(this, AlarmService.findNextAlarm(lstHour), Keys.KEY_ALRMMANAGER_REQUEST_CODE_NOTIFICATION );
         }
+    }
+
+    public void restart(){
+        getSharedPreferences(Keys.KEY_MAIN_SAVE, MODE_PRIVATE).edit().clear().apply();
+        DatabaseTreatment.getInstance(this).treatmentDao().deleteAllTreatment();
+
+        Intent i = getBaseContext().getPackageManager()
+                .getLaunchIntentForPackage( getBaseContext().getPackageName() );
+        Objects.requireNonNull(i).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i);
+
+        //finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        UtilsAlertDialog.displayAlertDialogConfirmQuitSettings(this);
+    }
+
+    public void back(){
+        super.onBackPressed();
     }
 }

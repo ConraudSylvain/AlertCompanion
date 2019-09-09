@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.app.KeyguardManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
@@ -25,10 +24,11 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.sylvain.alertcompanion.R;
-import com.sylvain.alertcompanion.utils.AlarmService;
-import com.sylvain.alertcompanion.utils.SendSmsService;
-import com.sylvain.alertcompanion.data.Keys;
+import com.sylvain.alertcompanion.services.AlarmService;
+import com.sylvain.alertcompanion.utils.SendSms;
+import com.sylvain.alertcompanion.utils.Keys;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -39,20 +39,21 @@ import butterknife.OnClick;
 
 public class StopAlarmActivity extends AppCompatActivity {
 
-    @OnClick(R.id.activity_stop_button_stop_alarm)
-    public void clickStopAlarm(){stopAlarmUser();}
+
     @BindView(R.id.activity_stop_textview_message_click)
     TextView textViewMessageClick;
+    @OnClick(R.id.activity_stop_button_stop_alarm)
+    public void clickStopAlarm(){stopAlarmUser();}
 
     SharedPreferences preferences;
     Timer timer;
-   static AlertDialog alertDialog;
-   private boolean blinkOk = true;
-   private MediaPlayer player;
-   private Camera cam ;
-   boolean stopFlash = false;
-   boolean allowFlash = false ;
-   int tentativCount;
+    static AlertDialog alertDialog;
+    private boolean blinkOk = true;
+    private MediaPlayer player;
+    private Camera cam ;
+    boolean stopFlash = false;
+    boolean allowFlash = false ;
+    int tentativCount;
 
 
     @Override
@@ -72,7 +73,7 @@ public class StopAlarmActivity extends AppCompatActivity {
         turnOnScreen();
         playAudio();
         if(preferences.getBoolean(Keys.KEY_FLASH, true))
-        openCamera();
+            openCamera();
         setTimer();
         blink();
     }
@@ -82,18 +83,16 @@ public class StopAlarmActivity extends AppCompatActivity {
         //Configure next alarm
         if(AlarmService.getAlarmList(this) != null)
             AlarmService.configureAlarms(this, AlarmService.findNextAlarm(AlarmService.getAlarmList(this)), Keys.KEY_ALRMMANAGER_REQUEST_CODE_ALARM);
-
-
     }
 
     //Set timer for stop alarm before send sms
     private void setTimer(){
-       timer.schedule(new TimerTask() {
+        timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 stopAlarmAlert();
             }
-        },Integer.valueOf(Objects.requireNonNull(preferences.getString(Keys.KEY_TIMER_ALARM, "10")))*1000);
+        },preferences.getInt(Keys.KEY_TIMER_ALARM, 30)*1000);
     }
 
     //Unlock screen
@@ -113,20 +112,20 @@ public class StopAlarmActivity extends AppCompatActivity {
 
     //Turn on screen
     private void turnOnScreen(){
-            PowerManager pm = (PowerManager)getSystemService(Context.POWER_SERVICE);
-            PowerManager.WakeLock wl = pm.newWakeLock( PowerManager.PARTIAL_WAKE_LOCK|
-                    PowerManager.ACQUIRE_CAUSES_WAKEUP|
-                    PowerManager.ON_AFTER_RELEASE, "AppName:tag");
-            wl.acquire(10*60*1000L /*10 minutes*/);
+        PowerManager pm = (PowerManager)getSystemService(Context.POWER_SERVICE);
+        PowerManager.WakeLock wl = pm.newWakeLock( PowerManager.PARTIAL_WAKE_LOCK|
+                PowerManager.ACQUIRE_CAUSES_WAKEUP|
+                PowerManager.ON_AFTER_RELEASE, "AppName:tag");
+        wl.acquire(10*60*1000L /*10 minutes*/);
     }
 
     //Stop alarm user action
     private void stopAlarmUser(){
         stopAudio();
-       timer.cancel();
-       blinkOk = false;
-       stopFlash = true;
-       finish();
+        timer.cancel();
+        blinkOk = false;
+        stopFlash = true;
+        finish();
     }
 
     //Stop alarm no response
@@ -136,7 +135,7 @@ public class StopAlarmActivity extends AppCompatActivity {
         stopFlash = true;
         StopAlarmActivity parent = this;
         parent.runOnUiThread(this::displayDialogSmsStatus);
-        SendSmsService.getInstance().configureAndSendSms(this, Keys.KEY_MOD_MESSAGE_ALARM);
+        SendSms.getInstance().configureAndSendSms(this, Keys.KEY_MOD_MESSAGE_ALARM);
         timer.cancel();
         flashOff();
     }
@@ -159,7 +158,7 @@ public class StopAlarmActivity extends AppCompatActivity {
                     blinkFlash();
                 }
                 if (blinkOk)
-                blink();
+                    blink();
             });
         }).start();
     }
@@ -193,7 +192,7 @@ public class StopAlarmActivity extends AppCompatActivity {
     //configure Flash
     private void configureFlash(){
         Camera.Parameters p = cam.getParameters();
-            p.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+        p.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
         SurfaceTexture mPreviewTexture = new SurfaceTexture(0);
         try{
             cam.setParameters(p);
@@ -264,22 +263,26 @@ public class StopAlarmActivity extends AppCompatActivity {
 
     /*AUDIO*/
 
-     void playAudio(){
+    void playAudio(){
         setVolume();
         Uri path;
-         if(preferences.getBoolean(Keys.KEY_TYPE_ALARM_VOICE, true)){
-             path = Uri.parse("android.resource://com.sylvain.alertcompanion/raw/alert_companion_click_button_fr");
-         } else{
-             path = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-             if (path == null) {
-                 path = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-             }
-         }
+        if(preferences.getBoolean(Keys.KEY_TYPE_ALARM_VOICE, true)){
+            if(Locale.getDefault().getLanguage().equals("fr")){
+                path = Uri.parse("android.resource://com.sylvain.alertcompanion/raw/alert_companion_click_button_fr");
+            }else{
+                path = Uri.parse("android.resource://com.sylvain.alertcompanion/raw/alertcompanion_click_eng");
+            }
+        } else{
+            path = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+            if (path == null) {
+                path = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            }
+        }
 
-         player = MediaPlayer.create(this, path);
-         player.setLooping(true);
-         player.start();
-     }
+        player = MediaPlayer.create(this, path);
+        player.setLooping(true);
+        player.start();
+    }
 
     private void setVolume(){
         AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
@@ -290,12 +293,12 @@ public class StopAlarmActivity extends AppCompatActivity {
         am.setStreamVolume(AudioManager.STREAM_MUSIC,(int) targetVolume,0);
     }
 
-     void stopAudio(){
+    void stopAudio(){
 
-             player.stop();
-         }
+        player.stop();
+    }
 
-     /*VIBRATE*/
+    /*VIBRATE*/
 
     private void vibrate(){
         if(preferences.getBoolean(Keys.KEY_VIBRATE, true)){

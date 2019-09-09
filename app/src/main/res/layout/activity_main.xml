@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <androidx.drawerlayout.widget.DrawerLayout
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main_drawer_layout"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
@@ -8,15 +9,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true">
 
-
-
 <RelativeLayout
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@drawable/main_activity_background">
-    <include layout="@layout/toolbar"/>
 
+<include layout="@layout/toolbar"/>
 
 <LinearLayout
     android:layout_centerInParent="true"
@@ -29,10 +27,18 @@
         android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/help_button"/>
-
+        android:src="@drawable/help_button"
+        tools:ignore="ContentDescription" />
 
 </LinearLayout>
+
+    <com.sylvain.alertcompanion.utils.NoSwipeableViewPager
+        android:id="@+id/activity_main_viewpager_tuto"
+        android:layout_margin="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
 </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView
@@ -44,9 +50,9 @@
         android:layout_gravity="start"
         android:background="@color/colorPrimary"
         app:itemTextColor="@android:color/white"
-        >
+        app:itemTextAppearance="@style/NavigationView"
+        android:theme="@style/NavigationViewTitle">
 
     </com.google.android.material.navigation.NavigationView>
-
 
 </androidx.drawerlayout.widget.DrawerLayout>

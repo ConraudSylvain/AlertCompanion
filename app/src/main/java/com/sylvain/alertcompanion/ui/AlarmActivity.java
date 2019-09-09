@@ -13,12 +13,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
-import com.sylvain.alertcompanion.utils.AlarmService;
-import com.sylvain.alertcompanion.data.Keys;
+import com.sylvain.alertcompanion.services.AlarmService;
+import com.sylvain.alertcompanion.utils.Keys;
 import com.sylvain.alertcompanion.R;
-import com.sylvain.alertcompanion.utils.Utils;
+import com.sylvain.alertcompanion.utils.Converter;
 import com.sylvain.alertcompanion.utils.UtilsAlertDialog;
 
 import java.text.SimpleDateFormat;
@@ -137,18 +136,13 @@ public class AlarmActivity extends AppCompatActivity {
     private void openTimePickerDialog(){
 
         TimePickerDialog timePickerDialog = new TimePickerDialog(this, (view, hourOfDay, minute) -> {
-            addAlarmToListAlarm(Utils.convertTimeStringToDate(Utils.convertTimeIntToString(hourOfDay, minute)));
+            addAlarmToListAlarm(Converter.convertTimeStringToDate(Converter.convertTimeIntToString(hourOfDay, minute)));
             displayAlarms();
 
         },0,0,true);
         timePickerDialog.show();
     }
 
-    /*
-    public void onCreateDialog() {
-        View v = getLayoutInflater().inflate(R.layout.time_picker_custom, null);
-         new AlertDialog.Builder(this).setView(v).create().show();
-    }*/
 
     //Save
     private void saveAlarmList(){

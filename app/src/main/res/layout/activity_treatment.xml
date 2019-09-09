@@ -7,8 +7,7 @@
 
 <include layout="@layout/toolbar"/>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -16,10 +15,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
-
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <TextView
             android:layout_gravity="center"
@@ -32,16 +29,7 @@
             android:textColor="@color/colorPrimaryDark"
             android:background="@color/colorBackgroundTreatment2"/>
 
-
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-
-        </LinearLayout>
-
-    <LinearLayout
         android:padding="20dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
@@ -49,8 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/background_treatment2"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_gravity="center"
@@ -58,18 +45,20 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_marginBottom="20dp">
+
             <TextView
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/morning"
                 android:textColor="@android:color/black"
-                android:textSize="@dimen/settings_subtitle"
-                />
+                android:textSize="@dimen/settings_subtitle" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:background="@android:color/black"/>
+
         </LinearLayout>
 
         <LinearLayout
@@ -79,15 +68,16 @@
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:orientation="vertical"/>
-    </LinearLayout>
+
+         </LinearLayout>
+
         <LinearLayout
             android:padding="20dp"
             android:layout_margin="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/background_treatment2"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_gravity="center"
@@ -95,18 +85,20 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:layout_marginBottom="20dp">
+
                 <TextView
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/midday"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/settings_subtitle"
-                    />
+                    android:textSize="@dimen/settings_subtitle" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:background="@android:color/black"/>
+
             </LinearLayout>
 
             <LinearLayout
@@ -116,6 +108,7 @@
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
                 android:orientation="vertical"/>
+
         </LinearLayout>
 
         <LinearLayout
@@ -124,8 +117,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/background_treatment2"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_gravity="center"
@@ -133,18 +125,20 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:layout_marginBottom="20dp">
+
                 <TextView
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/evening"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/settings_subtitle"
-                    />
+                    android:textSize="@dimen/settings_subtitle" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:background="@android:color/black"/>
+
             </LinearLayout>
 
             <LinearLayout
@@ -154,26 +148,11 @@
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
                 android:orientation="vertical"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <Button
-                android:layout_margin="20dp"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="back"/>
-
-
 
         </LinearLayout>
-
 
     </LinearLayout>
 
 </ScrollView>
+
 </LinearLayout>

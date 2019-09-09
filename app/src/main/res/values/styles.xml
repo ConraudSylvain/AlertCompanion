@@ -17,7 +17,23 @@
         <item name="android:windowBackground">@color/colorAccent</item>
     </style>
 
+    <style name="NavigationViewTitle">
+        <item name="android:textColorSecondary">@color/colorWhite</item>
+        <item name="android:textSize">30sp</item>
+    </style>
 
-    
+    <style name="NavigationView">
+        <item name="android:textColorSecondary">@color/colorWhite</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="TutoTextView" parent="@android:style/TextAppearance.Widget.TextView">
+        <item name="android:textSize">@dimen/text_size_tuto</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:fontFamily">@font/mangaba</item>
+
+
+
+    </style>
 
 </resources>

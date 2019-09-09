@@ -16,5 +16,13 @@
         >
     </item>
 
+    <item
+        android:id="@+id/menu_toolbar_save_settings"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_check"
+        android:visible="false"
+        >
+    </item>
+
 
 </menu>

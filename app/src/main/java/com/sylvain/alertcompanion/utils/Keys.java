@@ -1,4 +1,4 @@
-package com.sylvain.alertcompanion.data;
+package com.sylvain.alertcompanion.utils;
 
 public class Keys {
 
@@ -20,6 +20,7 @@ public class Keys {
    public static String KEY_HOUR_NOTIFICATION_MORNING = "hourNotificationMorning";
    public static String KEY_HOUR_NOTIFICATION_MIDDAY = "hourNotificationMidday";
    public static String KEY_HOUR_NOTIFICATION_EVENING = "hourNotificationEvening";
+   public static String KEY_FIST_START = "firstStart";
 
 
    public final static int KEY_ALRMMANAGER_REQUEST_CODE_ALARM = 0;

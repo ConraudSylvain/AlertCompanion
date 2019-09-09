@@ -1,4 +1,4 @@
-package com.sylvain.alertcompanion.data;
+package com.sylvain.alertcompanion.data.entities;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;

@@ -5,7 +5,7 @@
     <string name="alarms">Alarms</string>
     <string name="treatment">Treatment</string>
     <string name="settings">Settings</string>
-    <string name="main_menu">Main Menu</string>
+    <string name="main_menu">Menu</string>
 
     <!-- SMS -->
     <string name="automatic_message">--ALERT COMPANION-- Automatic message :\u0020</string>
@@ -13,7 +13,7 @@
     <!-- Settings -->
     <string name="daily_alarm">Daily alarm</string>
     <string name="add_number">Add number</string>
-    <string name="phone_number">Phone number</string>
+    <string name="phone_number">number</string>
     <string name="time_for_stop_alarm">Time for stop alarm</string>
     <string name="second">seconds</string>
     <string name="message_content"> Message content</string>
@@ -32,8 +32,24 @@
     <string name="alarm">Alarm</string>
     <string name="vibrate">Vibrate</string>
     <string name="flash">Flash</string>
-    <string name="popup_confirm_send_sms_sos_button">Popup confirm send sms sos button</string>
+    <string name="popup_confirm_send_sms_sos_button">Popup confirm send SMS SOS button</string>
+    <string name="restart_app">reset application</string>
+    <string name="quit_without_saving">Quit without saving</string>
+    <string name="all_fields_have_to_be_completed">all fields have to be completed</string>
+    <string name="hour_notification_not_correct">hours notification are not correct</string>
+    <string name="message_content_must_be_filled_out">Message contents must be filled out</string>
+    <string name="delay_must_be_filled_out">delay must be filled out</string>
+    <string name="phone_number_must_be_filled_out">phone number must be filled out</string>
+    <string name="yes">yes</string>
 
+
+
+    <string name="text_alarm_not_disable">An alarm has not been stopped by user</string>
+    <string name="text_sos">The user has clicked on SOS button</string>
+
+    <!-- Stopalarm activity -->
+    <string name="click_button_if_you_are_ok">Click on the button if everything is fine</string>
+    <string name="stop_alarm">Stop alarm</string>
 
     <!-- Treatment -->
     <string name="add_treatment">Add treatment</string>
@@ -50,10 +66,14 @@
     <string name="or">or</string>
     <string name="all_delete">all delete</string>
     <string name="cancel">Cancel</string>
+    <string name="and">and</string>
+
+
+    <!-- Notification -->
+    <string name="its_time_to_take_treatment">It\'time to take treatment</string>
 
 
     <string name="unit_hint"><font fgcolor='#808080'>Unit</font></string> <!--green-->
-
 
 
     <string-array name="dosage_drugs">
@@ -64,5 +84,23 @@
         <item>milligram</item>
 
     </string-array>
+
+    <!-- Tuto -->
+    <string name="next">next</string>
+    <string name="phone_book">phone book</string>
+    <string name="finish">finish</string>
+    <string name="tuto_text_welcom">Wellcome on AlertCompanion. We will help you for the first configuration (scroll to the bottom if all the text not display) </string>
+    <string name="tuto_text_permission">For begin we need permission for flash, SMS and read contact</string>
+    <string name="tuto_description">You can set multiple alarms and, if they are not stopped by user, a SMS will be send to contacts. A SOS button also allow to send SMS in case of emergency </string>
+    <string name="tuto_contact">Add contact(s) for send SMS, from call phone book or enter phone number</string>
+    <string name="tuto_end">Many settings are available in settings menu. Remember to add alarm in alarm menu </string>
+    <string name="required_permission">Required permission</string>
+    <string name="for_use_application_you_must_allow_all_permission">For use application you must allow all permission</string>
+    <string name="allow_permission">Allow permission</string>
+    <string name="quit_application">Quit application</string>
+
+
+
+
 
 </resources>

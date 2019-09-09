@@ -51,7 +51,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/add_number"
                     android:layout_marginEnd="10dp"
-                    android:textColor="@android:color/black"/>
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textSettings"/>
 
 
 
@@ -102,6 +103,8 @@
             </LinearLayout>
 
             <LinearLayout
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -112,8 +115,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/time_for_stop_alarm"
-                android:layout_margin="10dp"
-                android:textColor="@android:color/black"/>
+                android:layout_marginTop="10dp"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textSettings"/>
 
 
             <EditText
@@ -123,7 +127,7 @@
                 android:hint="@string/delay"
                 android:inputType="phone"
                 android:textAlignment="center"
-                android:layout_margin="10dp"
+                android:layout_marginTop="10dp"
                 tools:ignore="Autofill" />
 
             <TextView
@@ -131,7 +135,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/second"
                 android:layout_margin="10dp"
-                android:textColor="@android:color/black"/>
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textSettings"/>
 
         </LinearLayout>
 
@@ -146,7 +151,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/message_content"
                 android:layout_margin="10dp"
-                android:textColor="@android:color/black"/>
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textSettings"/>
 
         <EditText
             android:id="@+id/activity_settings_alarm_edittext_message_content_alarm"
@@ -156,7 +162,8 @@
             android:hint="@string/message_content"
             android:inputType="textMultiLine"
             android:textAlignment="center"
-            tools:ignore="Autofill" />
+            tools:ignore="Autofill"
+            android:textSize="@dimen/textSettings"/>
 
 
 
@@ -172,7 +179,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/alarm_volume"
-                android:textColor="@android:color/black"/>
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textSettings"/>
 
             <SeekBar
                 android:id="@+id/activity_settings_seekbar_volume"
@@ -199,7 +207,8 @@
                        android:layout_height="wrap_content"
                        android:text="@string/alarm_type"
                        android:textColor="@android:color/black"
-                       android:layout_marginEnd="20dp"/>
+                       android:layout_marginEnd="20dp"
+                       android:textSize="@dimen/textSettings"/>
 
                    <RadioButton
                        android:id="@+id/activity_settings_radiobutton_voice"
@@ -207,13 +216,15 @@
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:layout_marginEnd="30dp"
-                       android:checked="true"/>
+                       android:checked="true"
+                       android:textSize="@dimen/textSettings"/>
 
                    <RadioButton
                        android:id="@+id/activity_settings_radiobutton_alarm"
                        android:text="@string/alarm"
                        android:layout_width="wrap_content"
-                       android:layout_height="wrap_content" />
+                       android:layout_height="wrap_content"
+                       android:textSize="@dimen/textSettings"/>
                </RadioGroup>
 
         <LinearLayout
@@ -236,6 +247,7 @@
                 android:text="@string/vibrate"
                 android:layout_marginEnd="20dp"
                 android:textColor="@android:color/black"
+                android:textSize="@dimen/textSettings"
                />
 
             <ToggleButton
@@ -257,7 +269,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/flash"
-                    android:layout_marginEnd="20dp" />
+                    android:layout_marginEnd="20dp"
+                    android:textSize="@dimen/textSettings"/>
 
                 <ToggleButton
                     android:id="@+id/activity_settings_togglebutton_flash"
@@ -300,7 +313,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/add_number"
                     android:layout_margin="10dp"
-                    android:textColor="@android:color/black"/>
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textSettings"/>
 
 
                     <EditText
@@ -360,7 +374,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/message_content"
                     android:layout_margin="10dp"
-                    android:textColor="@android:color/black"/>
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textSettings"/>
 
                 <EditText
                     android:id="@+id/activity_settings_alarm_edittext_message_content_sos"
@@ -370,7 +385,8 @@
                     android:hint="@string/message_content"
                     android:inputType="textMultiLine"
                     android:textAlignment="center"
-                    tools:ignore="Autofill" />
+                    tools:ignore="Autofill"
+                    android:textSize="@dimen/textSettings"/>
             </LinearLayout>
 
             <LinearLayout
@@ -382,7 +398,8 @@
                     android:id="@+id/activity_settings_alarm_checkbox_confirm_send_sms"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/popup_confirm_send_sms_sos_button"/>
+                    android:text="@string/popup_confirm_send_sms_sos_button"
+                    android:textSize="@dimen/textSettings"/>
 
             </LinearLayout>
             <View
@@ -401,6 +418,7 @@
                 android:text="@string/treatment"
                 android:textSize="@dimen/settings_title"
                 android:textColor="@color/colorPrimaryDark"
+
                 />
 
 
@@ -414,7 +432,8 @@
                     android:id="@+id/activity_settings_checkbox_notification_treatment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/treatment_notification"/>
+                    android:text="@string/treatment_notification"
+                    android:textSize="@dimen/textSettings"/>
 
                 <LinearLayout
                     android:layout_marginTop="15dp"
@@ -428,6 +447,7 @@
                         android:text="@string/hour_morning"
                         android:textColor="@android:color/black"
                         android:layout_marginEnd="20dp"
+                        android:textSize="@dimen/textSettings"
                         />
 
                     <EditText
@@ -454,6 +474,7 @@
                         android:text="@string/hour_midday"
                         android:textColor="@android:color/black"
                         android:layout_marginEnd="20dp"
+                        android:textSize="@dimen/textSettings"
                         />
 
                     <EditText
@@ -481,6 +502,7 @@
                         android:text="@string/hour_evening"
                         android:textColor="@android:color/black"
                         android:layout_marginEnd="20dp"
+                        android:textSize="@dimen/textSettings"
                         />
 
                     <EditText
@@ -503,10 +525,11 @@
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="40dp"
                 android:layout_gravity="center"
-                android:id="@+id/activity_settings_alarm_button_save"
-                android:layout_width="@dimen/button_settings"
+                android:id="@+id/activity_settings_alarm_button_restart"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/save"/>
+                android:text="@string/restart_app"
+                android:textSize="@dimen/textSettings"/>
 
 
 

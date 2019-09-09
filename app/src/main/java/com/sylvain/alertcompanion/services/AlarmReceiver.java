@@ -1,4 +1,4 @@
-package com.sylvain.alertcompanion.utils;
+package com.sylvain.alertcompanion.services;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

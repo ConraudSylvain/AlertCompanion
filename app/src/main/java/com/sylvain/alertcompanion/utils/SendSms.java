@@ -8,26 +8,22 @@ import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.telephony.SmsManager;
-
 import com.sylvain.alertcompanion.R;
-import com.sylvain.alertcompanion.data.Keys;
-
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
 
-
-public class SendSmsService {
-
+public class SendSms {
 
     @SuppressLint("StaticFieldLeak")
-    private static SendSmsService instance = null;
-    MediaPlayer player;
+    private static SendSms instance = null;
+    private MediaPlayer player;
 
-    private SendSmsService(){}
+    private SendSms(){}
 
-    public static SendSmsService getInstance() {
+    public static SendSms getInstance() {
         if (instance == null) {
-            instance = new SendSmsService();
+            instance = new SendSms();
         }
         return instance;
     }
@@ -36,14 +32,14 @@ public class SendSmsService {
     //Configuration
     public void configureAndSendSms(Context context, String modAlert){
 
-        List<String> listContact = new ArrayList<>();
+        List<String> listContact;
         String contacts ="";
         if(modAlert.equals(Keys.KEY_MOD_MESSAGE_ALARM)){
             contacts =context.getSharedPreferences(Keys.KEY_MAIN_SAVE, Context.MODE_PRIVATE).getString(Keys.KEY_LIST_CONTACT_ALARM, null);
         }else if (modAlert.equals(Keys.KEY_MOD_MESSAGE_SOS)){
             contacts =context.getSharedPreferences(Keys.KEY_MAIN_SAVE, Context.MODE_PRIVATE).getString(Keys.KEY_LIST_CONTACT_SOS, null);
         }
-        listContact = Utils.convertStringContactToList(contacts);
+        listContact = Converter.convertStringContactToList(Objects.requireNonNull(contacts));
 
         for (int i = 0 ; i < listContact.size() ; i++){
 
@@ -57,11 +53,9 @@ public class SendSmsService {
             PendingIntent deliveredPI = PendingIntent.getBroadcast(context, 0,
                     new Intent(DELIVERED), 0);
 
-
-            String phoneNumber = "";
+            String phoneNumber;
             String messageContent = "";
             SharedPreferences preferences = context.getSharedPreferences(Keys.KEY_MAIN_SAVE , Context.MODE_PRIVATE);
-
             String[] tabContact = listContact.get(i).split("/");
             phoneNumber = tabContact[1];
 
@@ -75,12 +69,16 @@ public class SendSmsService {
             sms.sendTextMessage(phoneNumber, null, messageContent, sentPI, deliveredPI);
 
             if(player == null){
-                Uri path = Uri.parse("android.resource://com.sylvain.alertcompanion/raw/message_envoye_fr");
+                Uri path;
+                if(Locale.getDefault().getLanguage().equals("fr")){
+                     path = Uri.parse("android.resource://com.sylvain.alertcompanion/raw/message_envoye_fr");
+                }else{
+                    path = Uri.parse("android.resource://com.sylvain.alertcompanion/raw/alertcompanion_message_sent_eng");
+                }
                 player = MediaPlayer.create(context, path);
             }
             if(!player.isPlaying())
             player.start();
-
         }
     }
 }

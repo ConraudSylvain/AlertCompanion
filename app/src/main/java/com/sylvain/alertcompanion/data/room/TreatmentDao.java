@@ -1,11 +1,12 @@
-package com.sylvain.alertcompanion.data;
+package com.sylvain.alertcompanion.data.room;
 
 import androidx.room.Dao;
-import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
+
+import com.sylvain.alertcompanion.data.entities.Treatment;
 
 import java.util.List;
 
@@ -26,6 +27,9 @@ public interface TreatmentDao {
 
     @Query("SELECT * FROM Treatment WHERE evening = 1")
     List<Treatment> getListTreatmentEvening();
+
+    @Query("DELETE FROM Treatment")
+    void deleteAllTreatment();
 
     @Query("SELECT * FROM Treatment WHERE id =:id_treatment")
     Treatment getTreatment(long id_treatment);

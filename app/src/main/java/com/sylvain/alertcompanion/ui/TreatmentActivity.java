@@ -19,8 +19,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.sylvain.alertcompanion.R;
-import com.sylvain.alertcompanion.data.DatabaseTreatment;
-import com.sylvain.alertcompanion.data.Treatment;
+import com.sylvain.alertcompanion.data.room.DatabaseTreatment;
+import com.sylvain.alertcompanion.data.entities.Treatment;
 import java.util.List;
 import java.util.Objects;
 
@@ -187,17 +187,21 @@ public class TreatmentActivity extends AppCompatActivity {
     private void prepareDeleteTreatmentDatabase(View v){
         Treatment targetTreatment = null;
         String time ="";
+        int timeInt = 0;
 
 
         if (((View) v.getParent().getParent()).getId() == linearLayoutMorning.getId()  ){
             targetTreatment = treatmentListMorning.get(linearLayoutMorning.indexOfChild((View)v.getParent())) ;
             time = getResources().getString(R.string.morning);
+            timeInt = 1;
         } else if (((View) v.getParent().getParent()).getId() == linearLayoutMidday.getId()){
             targetTreatment = treatmentListMidday.get(linearLayoutMidday.indexOfChild((View)v.getParent()));
             time = getResources().getString(R.string.midday);
+            timeInt = 2;
         }else if(((View) v.getParent().getParent()).getId() == linearLayoutEvening.getId()){
             targetTreatment = treatmentListEvening.get(linearLayoutEvening.indexOfChild((View)v.getParent()));
             time = getResources().getString(R.string.evening);
+            timeInt = 3;
         }
 
         assert targetTreatment != null;
@@ -207,20 +211,34 @@ public class TreatmentActivity extends AppCompatActivity {
         int count = morningInt + middayInt + eveningInt;
 
         if(count < 2 ){
-            displayAlertDialogDeleteTreatment(getResources().getString(R.string.delete) + " ?", "ok",  null, targetTreatment);
+            displayAlertDialogDeleteTreatment(getResources().getString(R.string.delete) + " ?", "ok",  null, targetTreatment, timeInt);
         }else{
             StringBuilder builder = new StringBuilder();
             builder.append(getResources().getString(R.string.delete_just))
+                    .append(" ")
                     .append(time)
-                    .append(getResources().getString(R.string.or));
-            if(morningInt == 1)
-                builder.append(getResources().getString(R.string.morning));
-            if(middayInt == 1)
-                builder.append(getResources().getString(R.string.midday));
-            if(eveningInt == 1)
+                    .append(" ")
+                    .append(getResources().getString(R.string.or))
+                    .append(" ");
+            if(morningInt == 1){
+                builder.append(getResources().getString(R.string.morning))
+                        .append(" ");
+            if(count == 2)
+                builder.append(getResources().getString(R.string.and)).append(" ");
+            }
+
+            if(middayInt == 1){
+                builder.append(getResources().getString(R.string.midday))
+                .append(" ");
+                if(count == 3 ||  morningInt == 0)
+                    builder.append(getResources().getString(R.string.and)).append(" ");
+            }
+            if(eveningInt == 1){
                 builder.append(getResources().getString(R.string.evening));
+            }
+
             builder.append("?");
-            displayAlertDialogDeleteTreatment(builder.toString(), time ,getResources().getString(R.string.all_delete), targetTreatment);
+            displayAlertDialogDeleteTreatment(builder.toString(), time ,getResources().getString(R.string.all_delete), targetTreatment, timeInt);
         }
     }
 
@@ -259,14 +277,18 @@ public class TreatmentActivity extends AppCompatActivity {
     }
 
 
-    private void displayAlertDialogDeleteTreatment(String title, String positivButton, String neutralButton, Treatment targetTreatment){
+    private void displayAlertDialogDeleteTreatment(String title, String positivButton, String neutralButton, Treatment targetTreatment, int timeInt){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(title)
                 .setPositiveButton(positivButton, (dialog, which) -> {
                     if (neutralButton == null){
                         DatabaseTreatment.getInstance(TreatmentActivity.this).treatmentDao().deleteTreatment(targetTreatment.getId());
                     }else{
-                        updateTreatment(targetTreatment, positivButton);
+                        switch (timeInt){
+                            case 1 :  updateTreatment(targetTreatment,  "morning"); break;
+                            case 2 : updateTreatment(targetTreatment, "midday"); break;
+                            case 3 : updateTreatment(targetTreatment, "evening"); break;
+                        }
                     }
                     displayTreatment();
                 }).setNegativeButton(getResources().getString(R.string.cancel), (dialog, which) -> {

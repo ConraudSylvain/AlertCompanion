@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:paddingStart="10dp"
+<LinearLayout
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingStart="10dp"
     android:paddingEnd="10dp"
     android:paddingTop="20dp"
     android:paddingBottom="20dp"
@@ -16,20 +18,21 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_marginBottom="20dp">
+
         <TextView
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/add_treatment"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/settings_subtitle"
-            />
+            android:textSize="@dimen/settings_subtitle" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:background="@android:color/black"/>
-    </LinearLayout>
 
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/activity_treatment_linearlayout_name"
@@ -51,7 +54,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/name_of_the_drug"
-            android:textSize="@dimen/textSettings"/>
+            android:textSize="@dimen/textSettings"
+            android:inputType="text"
+            tools:ignore="Autofill" />
 
     </LinearLayout>
 
@@ -70,6 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:layout_weight="30"/>
+
         <CheckBox
             android:id="@+id/activity_treatment_checkbox_midday"
             android:text="@string/midday"
@@ -77,6 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:layout_weight="30"/>
+
         <CheckBox
             android:id="@+id/activity_treatment_checkbox_evening"
             android:text="@string/evening"
@@ -107,18 +114,18 @@
             android:layout_height="wrap_content"
             android:hint="@string/quantity"
             android:layout_marginEnd="10dp"
-            android:inputType="number"/>
+            android:inputType="number"
+            tools:ignore="Autofill" />
 
         <Spinner
             android:id="@+id/activity_treatment_spinner_dosage_unit"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:entries="@array/dosage_drugs"
-            android:textAlignment="center"
-
-            >
+            android:textAlignment="center">
 
         </Spinner>
+
     </LinearLayout>
 
     <LinearLayout
@@ -133,15 +140,18 @@
             android:id="@+id/activity_treatment_button_cancel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="cancel"
+            android:text="@string/cancel"
             android:layout_marginEnd="25dp"
-            android:layout_weight="30"/>
+            android:layout_weight="30"
+            style="?android:attr/buttonBarButtonStyle"/>
+
         <Button
             android:id="@+id/activity_treatment_button_add"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="add"
-            android:layout_weight="30"/>
+            android:text="@string/add"
+            android:layout_weight="30"
+            style="?android:attr/buttonBarButtonStyle"/>
 
     </LinearLayout>
 
